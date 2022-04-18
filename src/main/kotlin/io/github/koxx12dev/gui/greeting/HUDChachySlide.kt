@@ -19,7 +19,7 @@ class HUDChachySlide : GreetingSlide<EndSlide>(EndSlide::class.java) {
     }
 
     val text by UIWrappedText("""
-        Would you like to turn on HUDCaching?
+        Would you like to turn on HUD Caching?
     """.trimIndent(), centered = true) constrain {
         x = CenterConstraint()
         y = CenterConstraint()
@@ -28,7 +28,7 @@ class HUDChachySlide : GreetingSlide<EndSlide>(EndSlide::class.java) {
     } childOf window
 
     val secondaryText by UIWrappedText("""
-        HUDCaching reuses frames from the HUD instead of constantly recreating them every frame, as most HUD elements will stay the same for a long amount of time.
+        HUD Caching reuses frames from the HUD instead of constantly recreating them every frame, as most HUD elements will stay the same for a long amount of time.
         ${ChatColor.BOLD}This improves FPS drastically.${ChatColor.RESET}
         However, this may cause stuff with animations to feel "choppy".
     """.trimIndent(), centered = true) constrain {

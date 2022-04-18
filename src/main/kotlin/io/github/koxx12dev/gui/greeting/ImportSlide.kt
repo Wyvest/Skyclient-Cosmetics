@@ -39,10 +39,10 @@ class ImportSlide : GreetingSlide<OptimizationSlide>(OptimizationSlide::class.ja
     }
 
     val text by UIWrappedText("""
-        Would you like to import your config from .minecraft?
+        Would you like to import your mod config and other options from .minecraft?
     """.trimIndent(), centered = true) constrain {
         x = CenterConstraint()
-        y = CenterConstraint() //todo find better wording for this
+        y = CenterConstraint()
         width = 75.percent()
         textScale = 3.pixels()
     } childOf window
@@ -73,7 +73,7 @@ class ImportSlide : GreetingSlide<OptimizationSlide>(OptimizationSlide::class.ja
                 }
             } catch (e: Exception) {
                 progressText.setText("${ChatColor.RED}Failed, using offline locations...")
-                Thread.sleep(1000)
+                Thread.sleep(500)
                 e.printStackTrace()
                 configLocations.add("config")
                 configLocations.add("W-OVERFLOW")
@@ -87,15 +87,12 @@ class ImportSlide : GreetingSlide<OptimizationSlide>(OptimizationSlide::class.ja
                     if (file.exists()) {
                         progressText.setText("Copying \"$location\"...")
                         file.copyRecursively(File(Launch.minecraftHome, location), overwrite = true, onError = { _, _ -> OnErrorAction.SKIP })
-                        Thread.sleep(500)
                     } else {
                         progressText.setText("${ChatColor.RED}\"$location\" not found, skipping...")
-                        Thread.sleep(1000)
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
                     progressText.setText("${ChatColor.RED}Finding \"$location\" failed, skipping...")
-                    Thread.sleep(1000)
                 }
             }
             Window.enqueueRenderOperation {

@@ -30,7 +30,7 @@ open class GreetingSlide<T : GuiScreen>(val nextGui: Class<T>, val onClick: () -
             previousScale = Minecraft.getMinecraft().gameSettings.guiScale
         }
     }
-    private val background by UIBlock(Color.DARK_GRAY) constrain {
+    private val background by UIBlock(Color(16, 16, 16)) constrain {
         x = 0.pixels()
         y = 0.pixels()
         width = 100.percent()
@@ -59,7 +59,7 @@ open class GreetingSlide<T : GuiScreen>(val nextGui: Class<T>, val onClick: () -
     private val skyclientText by UIText("SkyClient") constrain {
         x = 2.pixels(alignOpposite = true)
         y = CenterConstraint()
-        color = Color.DARK_GRAY.toConstraint()
+        color = Color.CYAN.toConstraint()
     } childOf blackbar
 
     private val fade by UIBlock(Color.BLACK) constrain {
@@ -84,7 +84,7 @@ open class GreetingSlide<T : GuiScreen>(val nextGui: Class<T>, val onClick: () -
     protected fun displayNextScreen() {
         fade.setFloating(true)
         fade.animate {
-            setColorAnimation(Animations.LINEAR, 0.5f, Color.BLACK.toConstraint())
+            setColorAnimation(Animations.LINEAR, 0.5f, Color(16, 16, 16).toConstraint())
         }
         Multithreading.runAsync {
             while (fade.getColor().alpha != 255) { ; }
