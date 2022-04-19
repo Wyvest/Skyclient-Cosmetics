@@ -119,8 +119,8 @@ public class CustomSplashProgress {
         barBorderColor = 0x212121;
         barColor = 0xCB3D35;
         barBackgroundColor = 0x212121;
-        memoryGoodColor = 0x78CB34;
-        memoryWarnColor = 0xE6E84A;
+        memoryGoodColor = 0x2D4D26;
+        memoryWarnColor = 0x808033;
         memoryLowColor = 0xE42F2F;
 
         final ResourceLocation fontLoc = new ResourceLocation(getString("fontTexture", "textures/font/ascii.png"));
@@ -351,7 +351,7 @@ public class CustomSplashProgress {
                 setColor(fontColor);
                 glScalef(2, 2, 1);
                 glEnable(GL_TEXTURE_2D);
-                fontRenderer.drawString("Memory Used / Total", 0, 0, 0x000000);
+                fontRenderer.drawString("MB of Memory Used / Total", 0, 0, 0x000000);
                 glDisable(GL_TEXTURE_2D);
                 glPopMatrix();
                 // border
@@ -379,8 +379,8 @@ public class CustomSplashProgress {
                 }
                 setColor(memoryLowColor);
                 glPushMatrix();
-                glTranslatef((barWidth - 2) * ((float) totalMemory) / (maxMemory) - 2, 0, 0);
-                drawBox(2, barHeight - 2);
+                glTranslatef((barWidth - 2) * ((float) totalMemory) / (maxMemory) - 2, barHeight, 0);
+                drawBox(2, barHeight / 2);
                 glPopMatrix();
                 setColor(memoryBarColor);
                 drawBox((barWidth - 2) * (usedMemory) / (maxMemory), barHeight - 2);
@@ -395,7 +395,7 @@ public class CustomSplashProgress {
             }
 
             private String getMemoryString(int memory) {
-                return StringUtils.leftPad(Integer.toString(memory), 4, ' ') + " MB";
+                return StringUtils.leftPad(Integer.toString(memory), 4, ' ');
             }
 
             private void setGL() {
