@@ -11,11 +11,11 @@ plugins {
 }
 
 version = mod_version
-group = "io.github.koxx12dev"
+group = "co.skyclient"
 archivesBaseName = mod_name
 
 blossom {
-    String className = "src/main/java/io/github/koxx12dev/scc/SkyclientCosmetics.java"
+    String className = "src/main/java/co/skyclient/scc/SkyclientCosmetics.java"
     replaceToken("@VER@", project.version, className)
     replaceToken("@NAME@", mod_name, className)
     replaceToken("@ID@", mod_id, className)
@@ -106,7 +106,7 @@ sourceSets {
 
 shadowJar {
     archiveClassifier.set('dev')
-    configurations += [project.configurations.include]
+    configurations = [project.configurations.include]
     duplicatesStrategy DuplicatesStrategy.EXCLUDE
 }
 

@@ -2,7 +2,7 @@
   "compatibilityLevel": "JAVA_8",
   "minVersion": "0.7",
   "priority": 2147483647,
-  "package": "io.github.koxx12dev.scc.mixins",
+  "package": "co.skyclient.scc.mixins",
   "refmap": "mixins.scc.refmap.json",
   "mixins": [
     "MinecraftMixin",
@@ -12,5 +12,8 @@
     "replaymod.AbstractGuiTooltipMixin",
     "replaymod.GuiHandlerMixin",
     "replaymod.I18nMixin"
+  ],
+  "client": [
+    "GuiMainMenuMixin"
   ]
 }
