@@ -43,13 +43,14 @@ class ImportSlide : GreetingSlide<OptimizationSlide>(OptimizationSlide::class.ja
         Would you like to import your config from .minecraft?
     """.trimIndent(), centered = true) constrain {
         x = CenterConstraint()
-        y = CenterConstraint() //todo find better wording for this
+        y = CenterConstraint()
         width = 75.percent()
         textScale = 3.pixels()
     } childOf window
 
     val secondaryText by UIWrappedText("""
-        ${ChatColor.ITALIC}You will still need to import resource packs manually. Please contact SkyClient discord for more information.${ChatColor.RESET}
+        This means if you previously changed settings for your mods, Skyclient would copy those settings.
+        ${ChatColor.ITALIC}You will still need to import resource packs manually. Please contact the SkyClient Discord for more information.${ChatColor.RESET}
     """.trimIndent(), centered = true) constrain {
         x = CenterConstraint()
         y = SiblingConstraint(5f).also { it.constrainTo = text }
