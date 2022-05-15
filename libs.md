@@ -1,6 +1,6 @@
 # Libraries used
 
-| Lib  k| Licence | Reason |
+| Lib  | Licence | Reason |
 | ------------- | ------------- | ------------- |
 | [Discord game sdk4j](https://github.com/JnCrMx/discord-game-sdk4j) | MIT  | Discord RPC |
 | [Vigilance](https://github.com/Sk1erLLC/Vigilance)  | LGPL-3.0 | Settings UI |
