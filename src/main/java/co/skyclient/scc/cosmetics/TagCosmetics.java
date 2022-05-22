@@ -6,16 +6,16 @@ import com.google.gson.*;
 import gg.essential.api.utils.Multithreading;
 import gg.essential.api.utils.WebUtil;
 import gg.essential.universal.ChatColor;
-import org.apache.commons.io.FileUtils;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import org.apache.commons.io.FileUtils;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class TagCosmetics {
+
     private final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private static final TagCosmetics INSTANCE = new TagCosmetics();
     private boolean initialized;
@@ -42,7 +42,15 @@ public class TagCosmetics {
         Multithreading.runAsync(() -> {
             try {
                 try {
-                    rawData = JsonUtils.asJsonElement(Objects.requireNonNull(WebUtil.fetchString("https://skyclient.co/assets/tags.json")).replace('&', ChatColor.COLOR_CHAR)).getAsJsonObject();
+                    rawData =
+                        JsonUtils
+                            .asJsonElement(
+                                Objects
+                                    .requireNonNull(WebUtil.fetchString("https://skyclient.co/assets/tags.json"))
+                                    .replace('&', ChatColor.COLOR_CHAR)
+                            )
+                            .getAsJsonObject();
+
                     Multithreading.runAsync(() -> {
                         try {
                             FileUtils.writeStringToFile(cacheFile, GSON.toJson(rawData), StandardCharsets.UTF_8);
@@ -54,7 +62,10 @@ public class TagCosmetics {
                     e.printStackTrace();
                     if (cacheFile.exists()) {
                         try {
-                            rawData = JsonUtils.asJsonElement(FileUtils.readFileToString(cacheFile, StandardCharsets.UTF_8)).getAsJsonObject();
+                            rawData =
+                                JsonUtils
+                                    .asJsonElement(FileUtils.readFileToString(cacheFile, StandardCharsets.UTF_8))
+                                    .getAsJsonObject();
                         } catch (IOException ex) {
                             ex.printStackTrace();
                             return;
@@ -69,7 +80,13 @@ public class TagCosmetics {
                 ArrayList<TagPerm> permsToBeAdded = new ArrayList<>();
                 for (Map.Entry<String, JsonElement> entry : tagJson.entrySet()) {
                     JsonArray array = entry.getValue().getAsJsonArray();
-                    tagsToBeAdded.add(new Tag(array.get(0).getAsString(), (array.size() == 2 ? array.get(1).getAsString() : array.get(0).getAsString()), entry.getKey()));
+                    tagsToBeAdded.add(
+                        new Tag(
+                            array.get(0).getAsString(),
+                            (array.size() == 2 ? array.get(1).getAsString() : array.get(0).getAsString()),
+                            entry.getKey()
+                        )
+                    );
                 }
                 for (Map.Entry<String, JsonElement> entry : permsJson.entrySet()) {
                     permsToBeAdded.add(new TagPerm(entry.getValue().getAsJsonArray(), entry.getKey()));
