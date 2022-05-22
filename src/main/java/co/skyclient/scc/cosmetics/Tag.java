@@ -1,5 +1,7 @@
 package co.skyclient.scc.cosmetics;
 
+import co.skyclient.scc.SkyclientCosmetics;
+
 public class Tag {
     private final String fullTag;
     private final String shortTag;
@@ -12,11 +14,11 @@ public class Tag {
     }
 
     public String getFullTag() {
-        return fullTag;
+        return fullTag.replace("§Z", SkyclientCosmetics.isSBA ? "§Z" : "");
     }
 
     public String getShortTag() {
-        return shortTag;
+        return shortTag.replace("§Z", SkyclientCosmetics.isSBA ? "§Z" : "");
     }
 
     public String getIdentifier() {

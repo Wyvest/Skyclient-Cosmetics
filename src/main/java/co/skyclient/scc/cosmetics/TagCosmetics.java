@@ -1,7 +1,6 @@
 package co.skyclient.scc.cosmetics;
 
 import cc.woverflow.onecore.utils.JsonUtils;
-import co.skyclient.scc.SkyclientCosmetics;
 import co.skyclient.scc.utils.Files;
 import com.google.gson.*;
 import gg.essential.api.utils.Multithreading;
@@ -48,7 +47,6 @@ public class TagCosmetics {
                             .asJsonElement(
                                 Objects
                                     .requireNonNull(WebUtil.fetchString("https://skyclient.co/assets/tags.json"))
-                                    .replace("&Z", SkyclientCosmetics.isSBA ? "&Z" : "")
                                     .replace('&', ChatColor.COLOR_CHAR)
                             )
                             .getAsJsonObject();
