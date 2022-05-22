@@ -2,6 +2,7 @@ package co.skyclient.scc.cosmetics;
 
 import cc.woverflow.onecore.utils.JsonUtils;
 import co.skyclient.scc.utils.Files;
+import co.skyclient.scc.SkyclientCosmetics;
 import com.google.gson.*;
 import gg.essential.api.utils.Multithreading;
 import gg.essential.api.utils.WebUtil;
@@ -42,7 +43,14 @@ public class TagCosmetics {
         Multithreading.runAsync(() -> {
             try {
                 try {
-                    rawData = JsonUtils.asJsonElement(Objects.requireNonNull(WebUtil.fetchString("https://skyclient.co/assets/tags.json")).replace('&', ChatColor.COLOR_CHAR)).getAsJsonObject();
+                    rawData = JsonUtils.asJsonElement(
+                        Objects.requireNonNull(
+                            WebUtil.fetchString("https://skyclient.co/assets/tags.json")
+                        )
+                            .replace("&Z", SkyclientCosmetics.isSBA ? "&Z" : "")
+                            .replace("&", ChatColor.COLOR_CHAR)
+                    ).getAsJsonObject();
+
                     Multithreading.runAsync(() -> {
                         try {
                             FileUtils.writeStringToFile(cacheFile, GSON.toJson(rawData), StandardCharsets.UTF_8);

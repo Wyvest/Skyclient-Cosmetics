@@ -73,6 +73,7 @@ public class SkyclientCosmetics {
 
     public static boolean isPatcher;
     public static boolean isNEU;
+    public static boolean isSBA;
     private static boolean hasFailed;
 
     @Mod.EventHandler
@@ -144,6 +145,9 @@ public class SkyclientCosmetics {
             }
             if ("notenoughupdates".equals(mod.getModId())) {
                 isNEU = true;
+            }
+            if ("skyblockaddons".equals(mod.getModId())) {
+                isSBA = true;
             }
         }
 
