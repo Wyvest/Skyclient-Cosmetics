@@ -47,8 +47,8 @@ public class TagCosmetics {
                         Objects.requireNonNull(
                             WebUtil.fetchString("https://skyclient.co/assets/tags.json")
                         )
-                            .replace("&Z", SkyclientCosmetics.isSBA ? "&Z" : "")
-                            .replace("&", ChatColor.COLOR_CHAR)
+                            .replace('&Z', SkyclientCosmetics.isSBA ? '&Z' : '')
+                            .replace('&', ChatColor.COLOR_CHAR)
                     ).getAsJsonObject();
 
                     Multithreading.runAsync(() -> {
