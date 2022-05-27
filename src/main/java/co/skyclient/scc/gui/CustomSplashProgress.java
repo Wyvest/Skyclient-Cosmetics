@@ -266,7 +266,11 @@ public class CustomSplashProgress {
                         setColor(fontColor);
                         glScalef(2, 2, 1);
                         glEnable(GL_TEXTURE_2D);
-                        fontRenderer.drawString(funFact, 160 - (fontRenderer.getStringWidth(funFact) / 2), 180 - textHeight2, 0x000000);
+                        int offset = 0;
+                        for (String segment : funFact.split("\\\\n")) {
+                            fontRenderer.drawString(segment, 160 - (fontRenderer.getStringWidth(segment) / 2), 180 - textHeight2 + offset, 0x000000);
+                            offset += 10;
+                        }
                         glDisable(GL_TEXTURE_2D);
                         glPopMatrix();
                     }
