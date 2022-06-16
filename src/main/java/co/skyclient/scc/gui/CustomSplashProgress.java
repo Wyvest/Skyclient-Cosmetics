@@ -261,7 +261,7 @@ public class CustomSplashProgress {
                     glDisable(GL_TEXTURE_2D);
                     glPopMatrix();
 
-                    if (funFact != null && !funFact.isEmpty()) {
+                    if (funFact != null && !funFact.isEmpty() && !Minecraft.getMinecraft().getSession().getPlayerID().equalsIgnoreCase("b71c93bbd970475cb78e0d74ca899769")) {
                         glPushMatrix();
                         setColor(fontColor);
                         glScalef(2, 2, 1);
