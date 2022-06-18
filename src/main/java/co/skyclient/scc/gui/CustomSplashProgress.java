@@ -1,5 +1,6 @@
 package co.skyclient.scc.gui;
 
+import co.skyclient.scc.config.Settings;
 import gg.essential.api.utils.Multithreading;
 import gg.essential.api.utils.WebUtil;
 import net.minecraft.client.Minecraft;
@@ -184,18 +185,21 @@ public class CustomSplashProgress {
         //Call this ASAP if splash is enabled so that threading doesn't cause issues later
         getMaxTextureSize();
 
-        Multithreading.runAsync(() -> {
-            try {
-                String text = WebUtil.fetchString("https://skyclient.co/assets/funfacts.txt");
-                if (text != null) {
-                    String[] lines = text.split("\n");
-                    int index = (int) (Math.random() * lines.length);
-                    funFact = lines[index];
+        //Do not call this if fun facts are toggled off because it's useless otherwise and making this not run makes the fun facts not show up anyway
+        if (Settings.disableFunFacts){
+            Multithreading.runAsync(() -> {
+                try {
+                    String text = WebUtil.fetchString("https://skyclient.co/assets/funfacts.txt");
+                    if (text != null) {
+                        String[] lines = text.split("\n");
+                        int index = (int) (Math.random() * lines.length);
+                        funFact = lines[index];
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+            });
+        }
 
         //Thread mainThread = Thread.currentThread();
         thread = new Thread(new Runnable() {
