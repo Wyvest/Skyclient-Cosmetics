@@ -63,6 +63,9 @@ public class Settings extends Vigilant {
 
     @Property(type = PropertyType.TEXT, name = "Hypixel API key", description = "Hypixel API key used for requests", category = "Main", subcategory = "Hypixel", protectedText = true)
     public static String hpApiKey = "";
+    
+    @Property(type = PropertyType.SWITCH, name = "Toggle Fun Facts", description = "Toggles the fun facts in the custom loading screen", category = "Misc")
+    public static boolean disableFunFacts = false;
 
     //@Property(type = PropertyType.TEXT, name = "Skyclient Cosmetics API key", description = "SkyclientCosmetics Api key is used for every feature of this mod", category = "Main", subcategory = "Main", protectedText = true)
     //public static String SCCApiKey = "";
