@@ -29,7 +29,6 @@ import co.skyclient.scc.mixins.ServerListAccessor;
 import co.skyclient.scc.rpc.RPC;
 import co.skyclient.scc.utils.Files;
 import de.jcm.discordgamesdk.Core;
-import io.github.moulberry.notenoughupdates.NotEnoughUpdates;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.ServerList;
@@ -72,7 +71,6 @@ public class SkyclientCosmetics {
     public static Logger LOGGER;
 
     public static boolean isPatcher;
-    public static boolean isNEU;
     private static boolean hasFailed;
 
     @Mod.EventHandler
@@ -142,9 +140,6 @@ public class SkyclientCosmetics {
                     e.printStackTrace();
                 }
             }
-            if ("notenoughupdates".equals(mod.getModId())) {
-                isNEU = true;
-            }
         }
 
         progress.step("Checking Greeting Slides");
@@ -171,21 +166,6 @@ public class SkyclientCosmetics {
         }
 
         ProgressManager.pop(progress);
-    }
-
-    @SubscribeEvent
-    public void onWorldLoad(WorldEvent.Load event) {
-        if (isNEU && !hasFailed) {
-            try {
-                if (NotEnoughUpdates.INSTANCE.config.dungeonMap.dmEnable) {
-                    NotEnoughUpdates.INSTANCE.config.dungeonMap.dmEnable = false;
-                    NotEnoughUpdates.INSTANCE.saveConfig();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                hasFailed = true;
-            }
-        }
     }
 
 }
