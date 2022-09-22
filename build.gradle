@@ -3,17 +3,19 @@
 
 plugins {
     id "dev.architectury.architectury-pack200" version "0.1.3"
-    id "cc.woverflow.loom" version "0.10.6"
+    id "com.github.johnrengelman.shadow" version "7.1.2"
+    id "org.jetbrains.kotlin.jvm" version "1.6.10"
+    id "gg.essential.loom" version "0.10.0.4"
     id "net.kyori.blossom" version "1.3.0"
     id "java"
 }
 
 version = mod_version
-group = "io.github.koxx12dev"
+group = "co.skyclient"
 archivesBaseName = mod_name
 
 blossom {
-    String className = "src/main/java/io/github/koxx12dev/scc/SkyclientCosmetics.java"
+    String className = "src/main/java/co/skyclient/scc/SkyclientCosmetics.java"
     replaceToken("@VER@", project.version, className)
     replaceToken("@NAME@", mod_name, className)
     replaceToken("@ID@", mod_id, className)
@@ -22,10 +24,16 @@ blossom {
 sourceCompatibility = targetCompatibility = JavaVersion.VERSION_1_8
 compileJava.options.encoding = 'UTF-8'
 
+compileKotlin {
+    kotlinOptions {
+        freeCompilerArgs += "-Xjvm-default=all-compatibility"
+    }
+}
+
 loom {
     launchConfigs {
         client {
-            arg("--tweakClass", "cc.woverflow.onecore.tweaker.OneCoreTweaker")
+            arg("--tweakClass", "co.skyclient.scc.hooks.ReplacedModRemover")
             property("onecore.mixin", "mixins.scc.json")
             property("mixin.debug.export", "true")
         }
@@ -45,22 +53,22 @@ loom {
 configurations {
     include
     implementation.extendsFrom(include)
+    dummyBuild
+    dummyImplementation.extendsFrom(dummyBuild)
 }
 
 repositories {
-    maven { url 'https://repo.woverflow.cc/' }
+    maven { url 'https://repo.polyfrost.cc/releases' }
 }
 
 dependencies {
     minecraft("com.mojang:minecraft:1.8.9")
     mappings("de.oceanlabs.mcp:mcp_stable:22-1.8.9")
     forge("net.minecraftforge:forge:1.8.9-11.15.1.2318-1.8.9")
-    compileOnly 'gg.essential:essential-1.8.9-forge:1933'
-    compileOnly 'cc.woverflow:onecore:1.3.3'
+    dummyBuild("gg.essential:essential-1.8.9-forge:1933")
+    compileOnly("gg.essential:essential-1.8.9-forge:1933")
+    include 'gg.essential:loader-launchwrapper:1.1.3'
     include 'com.github.JnCrMx:discord-game-sdk4j:v0.5.4'
-    include ('cc.woverflow:onecore-tweaker:1.3.0') {
-        transitive = false
-    }
     compileOnly ('org.spongepowered:mixin:0.8.5-SNAPSHOT')
 }
 
@@ -82,28 +90,35 @@ processResources {
 }
 
 sourceSets {
-    dummy
+    dummy {
+        java {}
+    }
     main {
         compileClasspath += dummy.output
         output.resourcesDir = java.classesDirectory
     }
 }
 
-jar {
-    dependsOn configurations.include
-    from(configurations.include.collect { it.isDirectory() ? it : zipTree(it) }) {
-        def i = 0
-        filesMatching("META-INF/NOTICE*") { name = "$name.${i++}" }
-        filesMatching("META-INF/LICENSE*") { name = "$name.${i++}" }
-        filesMatching("META-INF/mods.toml") { name = "$name.${i++}" }
-        filesMatching("LICENSE*") { name = "$name.${i++}" }
-    }
 
+shadowJar {
+    archiveClassifier.set('dev')
+    configurations = [project.configurations.include]
+    duplicatesStrategy DuplicatesStrategy.EXCLUDE
+}
+
+remapJar {
+    archiveClassifier.set('')
+    from(shadowJar.archiveFile)
+}
+
+jar {
     manifest.attributes(
             'ModSide': 'CLIENT',
             'ForceLoadAsMod': true,
-            'TweakClass': 'cc.woverflow.onecore.tweaker.OneCoreTweaker',
+            'TweakClass': 'co.skyclient.scc.hooks.ReplacedModRemover',
             'MixinConfigs': "mixins.scc.json",
             "TweakOrder": "0"
     )
+    enabled = false
 }
+jar.dependsOn(shadowJar)
