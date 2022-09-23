@@ -5,6 +5,7 @@
   "package": "co.skyclient.scc.mixins",
   "refmap": "mixins.scc.refmap.json",
   "mixins": [
+    "SkytilsMixin",
     "GuiMainMenuMixin",
     "GuiWinGameMixin",
     "MinecraftMixin",
