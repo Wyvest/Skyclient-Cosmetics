@@ -32,6 +32,7 @@ public class Settings extends Vigilant {
     @Property(type = PropertyType.SWITCH, name = "Show Custom Tags", description = "Show the custom tags, which are the main focus of this mod.", category = "Main", subcategory = "Tags")
     public static boolean showTags = true;
 
+    //TODO: Actually implement this
     @Property(type = PropertyType.SWITCH, name = "Shorten Custom Tags", description = "Use shorter tags.\n[BOOSTER] becomes [B], for example.", category = "Main", subcategory = "Tags")
     public static boolean shortenTags = false;
 
@@ -41,7 +42,7 @@ public class Settings extends Vigilant {
     }
 
     @Property(type = PropertyType.TEXT, name = "Discord RPC Second Line", description = "Allows you to edit the second line of the Discord RPC\n\u00A7aAllows usage of Placeholders. More info on the wiki (https://github.com/koxx12-dev/Skyclient-Cosmetics/wiki/Discord-RPC)", category = "Main", subcategory = "Discord Rich Presence")
-    public static String rpcLineTwo = "SBE bad";
+    public static String rpcLineTwo = "Playing Skyblock";
 
     @Property(type = PropertyType.TEXT, name = "Discord RPC First Line", description = "Allows you to edit the first line of the Discord RPC\n\u00A7aAllows usage of Placeholders. More info on the wiki (https://github.com/koxx12-dev/Skyclient-Cosmetics/wiki/Discord-RPC)", category = "Main", subcategory = "Discord Rich Presence")
     public static String rpcLineOne = "%player% is very cool";
@@ -55,8 +56,8 @@ public class Settings extends Vigilant {
     @Property(type = PropertyType.SWITCH, name = "First Time Message", description = "Get \"First time message\" when u join next time", category = "Misc", subcategory = "Chat", hidden = true)
     public static boolean joinMessage = true;
 
-    @Property(type = PropertyType.SWITCH, name = "SBE Sucks Mode", description = "https://github.com/MicrocontrollersDev/Alternatives/blob/1e409e056e3e14ca874a2368c045de96787e8cbd/SkyblockExtras.md", category = "Main", subcategory = "Discord Rich Presence")
-    public static boolean sbeBadMode = false;
+//    @Property(type = PropertyType.SWITCH, name = "SBE Sucks Mode", description = "https://github.com/MicrocontrollersDev/Alternatives/blob/1e409e056e3e14ca874a2368c045de96787e8cbd/SkyblockExtras.md", category = "Main", subcategory = "Discord Rich Presence")
+//    public static boolean sbeBadMode = false;
 
     @Property(type = PropertyType.SWITCH, name = "Tags in Display Names", description = "Shows tags above player names\n\u00A7c(May crash)", category = "Main", subcategory = "Tags")
     public static boolean displayTags = false;
@@ -74,7 +75,7 @@ public class Settings extends Vigilant {
 
         initialize();
 
-        addDependency("sbeBadMode","rpc");
+        //addDependency("sbeBadMode","rpc");
         addDependency("rpcLineTwo","rpc");
         addDependency("rpcLineOne","rpc");
         addDependency("rpcImgText","rpc");

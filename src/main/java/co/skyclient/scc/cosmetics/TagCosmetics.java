@@ -36,6 +36,7 @@ public class TagCosmetics {
         initialize();
     }
 
+    //TODO: Optimize this entire class as it looks like fucking pasta
     public void initialize() {
         initialized = false;
         Multithreading.runAsync(() -> {

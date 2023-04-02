@@ -35,6 +35,7 @@ public class StringUtils {
         return msg.replaceAll("[^\\p{L}\\p{M}\\p{N}\\p{P}\\p{Z}\\p{Cf}\\p{Cs}\\s]", "");
     }
 
+    //TODO: Make more modular and optimize it
     public static String discordPlaceholder(String text) {
         List<String> txt = new ArrayList<>(Arrays.asList(text.split("%")));
 

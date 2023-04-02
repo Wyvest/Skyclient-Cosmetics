@@ -66,6 +66,7 @@ public class SidebarUtils {
         return lines;
     }
 
+    //TODO: Add Cache
     public static String getPurse() {
         try {
             List<String> sidebar = getSidebarLines();
@@ -81,7 +82,7 @@ public class SidebarUtils {
             return null;
         }
     }
-
+    //TODO: Add Cache
     public static String getBits() {
         try {
             List<String> sidebar = getSidebarLines();

@@ -38,6 +38,7 @@ public class PlayerListeners {
         }
     }
 
+    //TODO: use a mixin instead
     @SubscribeEvent
     public void onNameFormat(PlayerEvent.NameFormat event) {
         if (Settings.displayTags) {

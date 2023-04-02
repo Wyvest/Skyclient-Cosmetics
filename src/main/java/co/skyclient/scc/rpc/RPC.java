@@ -136,11 +136,11 @@ public class RPC extends Thread {
             //activity.party().size().setMaxSize(4);
             //activity.party().size().setCurrentSize(1);
 
-            if (Settings.sbeBadMode) {
-                activity.assets().setLargeImage("nosbe");
-            } else {
+//            if (Settings.sbeBadMode) {
+//                activity.assets().setLargeImage("nosbe");
+//            } else {
                 activity.assets().setLargeImage("skyclienticon");
-            }
+//            }
 
             activity.assets().setLargeText(StringUtils.discordPlaceholder(Settings.rpcImgText));
 
