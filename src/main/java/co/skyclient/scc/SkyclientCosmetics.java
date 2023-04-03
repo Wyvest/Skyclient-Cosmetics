@@ -33,7 +33,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.ServerList;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ModContainer;
@@ -41,13 +40,11 @@ import net.minecraftforge.fml.common.ProgressManager;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.versioning.DefaultArtifactVersion;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.Logger;
 
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 
@@ -66,12 +63,12 @@ public class SkyclientCosmetics {
 
     public static Core rpcCore;
 
-    public static String partyID = RPC.generateID();
+    //public static String partyID = RPC.generateID();
 
     public static Logger LOGGER;
 
     public static boolean isPatcher;
-    private static boolean hasFailed;
+    //private static boolean hasFailed;
 
     @Mod.EventHandler
     public void onPreInit(FMLPreInitializationEvent event) {
@@ -97,7 +94,7 @@ public class SkyclientCosmetics {
     @Mod.EventHandler
     public void onInit(FMLInitializationEvent event) {
 
-        ProgressManager.ProgressBar progress = ProgressManager.push("Initialization", 4);
+        ProgressManager.ProgressBar progress = ProgressManager.push("Initialization", 5);
 
         progress.step("Registering Listeners");
 
@@ -106,12 +103,6 @@ public class SkyclientCosmetics {
         MinecraftForge.EVENT_BUS.register(new PlayerListeners());
         MinecraftForge.EVENT_BUS.register(new GuiListeners());
 
-        progress.step("Starting RPC");
-
-        RPC.INSTANCE.rpcManager();
-
-        MinecraftForge.EVENT_BUS.register(RPC.INSTANCE);
-
         progress.step("Registering Commands");
 
         new SccComand().register();
@@ -119,6 +110,16 @@ public class SkyclientCosmetics {
         progress.step("Loading Tags");
 
         TagCosmetics.getInstance().initialize();
+
+        progress.step("Initializing Placeholders");
+
+        co.skyclient.scc.utils.StringUtils.initPlaceholders();
+
+        progress.step("Starting RPC");
+
+        RPC.INSTANCE.rpcManager();
+
+        MinecraftForge.EVENT_BUS.register(RPC.INSTANCE);
 
         ProgressManager.pop(progress);
     }

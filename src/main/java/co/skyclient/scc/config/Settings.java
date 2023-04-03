@@ -32,7 +32,6 @@ public class Settings extends Vigilant {
     @Property(type = PropertyType.SWITCH, name = "Show Custom Tags", description = "Show the custom tags, which are the main focus of this mod.", category = "Main", subcategory = "Tags")
     public static boolean showTags = true;
 
-    //TODO: Actually implement this
     @Property(type = PropertyType.SWITCH, name = "Shorten Custom Tags", description = "Use shorter tags.\n[BOOSTER] becomes [B], for example.", category = "Main", subcategory = "Tags")
     public static boolean shortenTags = false;
 
@@ -68,7 +67,7 @@ public class Settings extends Vigilant {
     //@Property(type = PropertyType.TEXT, name = "Skyclient Cosmetics API key", description = "SkyclientCosmetics Api key is used for every feature of this mod", category = "Main", subcategory = "Main", protectedText = true)
     //public static String SCCApiKey = "";
 
-    public Settings()  {
+    public Settings() {
         super(new File("./SkyclientCosmetics/skyclientcosmetics.toml"));
 
         //final Class<Settings> SettingsClass = Settings.class;
@@ -76,13 +75,13 @@ public class Settings extends Vigilant {
         initialize();
 
         //addDependency("sbeBadMode","rpc");
-        addDependency("rpcLineTwo","rpc");
-        addDependency("rpcLineOne","rpc");
-        addDependency("rpcImgText","rpc");
+        addDependency("rpcLineTwo", "rpc");
+        addDependency("rpcLineOne", "rpc");
+        addDependency("rpcImgText", "rpc");
 
-        addDependency("shortenTags","showTags");
+        addDependency("shortenTags", "showTags");
         //addDependency("reloadTags","showTags");
         //addDependency(SettingsClass.getField("r"),SettingsClass.getField("showTags"));
-        addDependency("displayTags","showTags");
+        addDependency("displayTags", "showTags");
     }
 }

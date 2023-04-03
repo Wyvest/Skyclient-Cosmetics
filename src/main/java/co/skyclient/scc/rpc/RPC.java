@@ -17,14 +17,14 @@
 
 package co.skyclient.scc.rpc;
 
+import co.skyclient.scc.SkyclientCosmetics;
+import co.skyclient.scc.config.Settings;
+import co.skyclient.scc.utils.StringUtils;
 import de.jcm.discordgamesdk.Core;
 import de.jcm.discordgamesdk.CreateParams;
 import de.jcm.discordgamesdk.DiscordEventAdapter;
 import de.jcm.discordgamesdk.GameSDKException;
 import de.jcm.discordgamesdk.activity.Activity;
-import co.skyclient.scc.SkyclientCosmetics;
-import co.skyclient.scc.config.Settings;
-import co.skyclient.scc.utils.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,9 +35,9 @@ public class RPC extends Thread {
 
     public static RPC INSTANCE = new RPC();
 
-    private Thread trd = new Thread(this);
+    private final Thread trd = new Thread(this);
 
-    private static Instant timestamp = Instant.now();
+    private static final Instant timestamp = Instant.now();
 
     public void rpcManager() {
         if (!SkyclientCosmetics.rpcRunning) {
@@ -50,7 +50,7 @@ public class RPC extends Thread {
 
         try {
             File discordLibrary = DownloadSDK.downloadDiscordLibrary();
-            if(discordLibrary == null) {
+            if (discordLibrary == null) {
                 System.err.println("Error downloading Discord SDK.");
                 System.exit(-1);
             }
@@ -58,27 +58,25 @@ public class RPC extends Thread {
             Core.init(discordLibrary);
 
             // Set parameters for the Core
-            try(CreateParams params = new CreateParams()) {
+            try (CreateParams params = new CreateParams()) {
                 params.setClientID(857240025288802356L);
                 params.setFlags(CreateParams.Flags.NO_REQUIRE_DISCORD);
                 // Create the Core
 
-                params.registerEventHandler(new DiscordEventAdapter()
-                {
+                params.registerEventHandler(new DiscordEventAdapter() {
 
                     @Override
-                    public void onActivityJoin(String secret)
-                    {
+                    public void onActivityJoin(String secret) {
                         SkyclientCosmetics.LOGGER.info("");
                     }
 
                 });
 
-                try(Core core = new Core(params)) {
+                try (Core core = new Core(params)) {
                     // Run callbacks forever
                     SkyclientCosmetics.rpcCore = core;
 
-                    while(SkyclientCosmetics.rpcRunning) {
+                    while (SkyclientCosmetics.rpcRunning) {
                         try {
                             core.runCallbacks();
                         } catch (GameSDKException e) {
@@ -90,8 +88,7 @@ public class RPC extends Thread {
                                 Thread.sleep(16);
                             }
 
-                        }
-                        catch(InterruptedException e) {
+                        } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
                         if (!Settings.rpc && SkyclientCosmetics.rpcOn && SkyclientCosmetics.rpcRunning) {
@@ -108,8 +105,7 @@ public class RPC extends Thread {
                     SkyclientCosmetics.rpcRunning = false;
                 }
             }
-        }
-        catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             System.err.println("Error downloading Discord SDK.");
             System.exit(-1);
@@ -118,7 +114,7 @@ public class RPC extends Thread {
     }
 
     public static void update(Core core) {
-        try(Activity activity = new Activity())  {
+        try (Activity activity = new Activity()) {
 
             String LineOne = StringUtils.discordPlaceholder(Settings.rpcLineOne);
             String LineTwo = StringUtils.discordPlaceholder(Settings.rpcLineTwo);
@@ -139,7 +135,7 @@ public class RPC extends Thread {
 //            if (Settings.sbeBadMode) {
 //                activity.assets().setLargeImage("nosbe");
 //            } else {
-                activity.assets().setLargeImage("skyclienticon");
+            activity.assets().setLargeImage("skyclienticon");
 //            }
 
             activity.assets().setLargeText(StringUtils.discordPlaceholder(Settings.rpcImgText));

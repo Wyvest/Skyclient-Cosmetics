@@ -1,5 +1,6 @@
 package co.skyclient.scc.commands;
 
+import co.skyclient.scc.SkyclientCosmetics;
 import co.skyclient.scc.cosmetics.Tag;
 import co.skyclient.scc.cosmetics.TagCosmetics;
 import co.skyclient.scc.utils.ChatUtils;
@@ -8,7 +9,6 @@ import gg.essential.api.commands.Command;
 import gg.essential.api.commands.DefaultHandler;
 import gg.essential.api.commands.DisplayName;
 import gg.essential.api.commands.SubCommand;
-import co.skyclient.scc.SkyclientCosmetics;
 
 import java.util.HashSet;
 import java.util.Set;

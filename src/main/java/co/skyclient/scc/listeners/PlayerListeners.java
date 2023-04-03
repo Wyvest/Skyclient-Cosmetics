@@ -17,11 +17,11 @@
 
 package co.skyclient.scc.listeners;
 
+import co.skyclient.scc.SkyclientCosmetics;
 import co.skyclient.scc.config.Settings;
 import co.skyclient.scc.cosmetics.Tag;
 import co.skyclient.scc.cosmetics.TagCosmetics;
 import gg.essential.api.EssentialAPI;
-import co.skyclient.scc.SkyclientCosmetics;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
@@ -38,13 +38,14 @@ public class PlayerListeners {
         }
     }
 
-    //TODO: use a mixin instead
     @SubscribeEvent
     public void onNameFormat(PlayerEvent.NameFormat event) {
+        if (event.entity == null || event.entityPlayer == null || event.entityPlayer.isDead || event.displayname == null) return;
+
         if (Settings.displayTags) {
             Tag tag = TagCosmetics.getInstance().getTag(event.displayname);
             if (tag != null) {
-                event.displayname = tag.getFullTag() + " " + event.displayname;
+                event.displayname = tag.getTag() + " " + event.displayname;
             }
         }
     }

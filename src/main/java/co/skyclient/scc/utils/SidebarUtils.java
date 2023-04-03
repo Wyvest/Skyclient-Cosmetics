@@ -34,6 +34,15 @@ import java.util.stream.Collectors;
 
 public class SidebarUtils {
 
+
+    private static String coins = "0";
+    private static String bits = "0";
+    private static String server = "Unknown Server";
+    private static String objective = "Unknown Objective";
+    private static String time = "Unknown Time";
+    private static String loc = "Unknown Loc";
+    private static String date = "Unknown Date";
+
     private static List<String> getSidebarLines() {
 
         List<String> lines = new ArrayList<>();
@@ -66,37 +75,32 @@ public class SidebarUtils {
         return lines;
     }
 
-    //TODO: Add Cache
     public static String getPurse() {
         try {
             List<String> sidebar = getSidebarLines();
 
             for (String a : sidebar) {
                 if (a.matches("Purse: [0-9,]+")) {
-                    return a.replace("Purse: ", "").trim();
+                    coins = a.replace("Purse: ", "").trim();
                 }
             }
-
-            return null;
-        } catch (Exception e) {
-            return null;
+        } catch (Exception ignored) {
         }
+        return coins;
     }
-    //TODO: Add Cache
+
     public static String getBits() {
         try {
             List<String> sidebar = getSidebarLines();
 
             for (String a : sidebar) {
                 if (a.matches("Bits: [0-9,]+")) {
-                    return a.replace("Bits: ", "").trim();
+                    bits = a.replace("Bits: ", "").trim();
                 }
             }
-
-            return null;
-        } catch (Exception e) {
-            return null;
+        } catch (Exception ignored) {
         }
+        return bits;
     }
 
     public static String getServer() {
@@ -107,14 +111,12 @@ public class SidebarUtils {
 
             for (String a : sidebar) {
                 if (regex.matcher(a).find()) {
-                    return Array.get(a.split(" "), 1).toString().trim();
+                    server = Array.get(a.split(" "), 1).toString().trim();
                 }
             }
-
-            return null;
-        } catch (Exception e) {
-            return null;
+        } catch (Exception ignored) {
         }
+        return server;
     }
 
     public static String getSBTime() {
@@ -125,14 +127,12 @@ public class SidebarUtils {
 
             for (String a : sidebar) {
                 if (regex.matcher(a).find()) {
-                    return a.trim();
+                    time = a.trim();
                 }
             }
-
-            return null;
-        } catch (Exception e) {
-            return null;
+        } catch (Exception ignored) {
         }
+        return time;
     }
 
     public static String getSBDate() {
@@ -144,14 +144,12 @@ public class SidebarUtils {
             for (String a : sidebar) {
 
                 if (regex.matcher(a).find()) {
-                    return a.trim();
+                    date = a.trim();
                 }
             }
-
-            return null;
-        } catch (Exception e) {
-            return null;
+        } catch (Exception ignored) {
         }
+        return date;
     }
 
     public static String getSBLoc() {
@@ -164,15 +162,13 @@ public class SidebarUtils {
 
             for (String a : sidebar) {
                 if (regex.matcher(a).find()) {
-                    return sidebar.get(i).trim();
+                    loc = sidebar.get(i).trim();
                 }
                 i++;
             }
-
-            return null;
-        } catch (Exception e) {
-            return null;
+        } catch (Exception ignored) {
         }
+        return loc;
     }
 
     public static String getObjective() {
@@ -186,15 +182,13 @@ public class SidebarUtils {
 
             for (String a : sidebar) {
                 if (regex.matcher(a).find()) {
-                    return sidebar.get(i).trim();
+                    objective = sidebar.get(i).trim();
                 }
                 i++;
             }
-
-            return null;
-        } catch (Exception e) {
-            return null;
+        } catch (Exception ignored) {
         }
+        return objective;
     }
 
     public static String getSidebarTitle() {

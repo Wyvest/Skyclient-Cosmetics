@@ -37,9 +37,9 @@ public class TagPerm {
 
     @Override
     public String toString() {
-        return "TagPerm{" +
+        return "TagPerm(" +
                 "identifier='" + identifier + '\'' +
                 ", users=" + users +
-                '}';
+                ')';
     }
 }

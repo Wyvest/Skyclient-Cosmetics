@@ -97,7 +97,8 @@ public class SkyClientMainMenu extends GuiMainMenu {
             case 6:
                 try {
                     this.mc.displayGuiScreen((GuiScreen) cosmeticGui.getDeclaredConstructor().newInstance());
-                } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+                } catch (InstantiationException | IllegalAccessException | NoSuchMethodException |
+                         InvocationTargetException e) {
                     e.printStackTrace();
                 }
                 break;

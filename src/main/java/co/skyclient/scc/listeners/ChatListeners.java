@@ -17,17 +17,17 @@
 
 package co.skyclient.scc.listeners;
 
+import co.skyclient.scc.SkyclientCosmetics;
 import co.skyclient.scc.config.Settings;
 import co.skyclient.scc.cosmetics.Tag;
 import co.skyclient.scc.cosmetics.TagCosmetics;
 import co.skyclient.scc.utils.ChatUtils;
+import co.skyclient.scc.utils.StringUtils;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import gg.essential.api.utils.Multithreading;
 import gg.essential.api.utils.WebUtil;
 import gg.essential.universal.ChatColor;
-import co.skyclient.scc.SkyclientCosmetics;
-import co.skyclient.scc.utils.StringUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
@@ -75,12 +75,12 @@ public class ChatListeners {
                                 playerColor = ChatColor.GRAY.toString();
                             }
 
-                            playerName = playerText.replaceAll(rankRegex.pattern(),"").trim();
+                            playerName = playerText.replaceAll(rankRegex.pattern(), "").trim();
 
                             Tag tag = TagCosmetics.getInstance().getTag(playerName);
                             if (tag != null) {
-                                String newVal = tag.getFullTag() + " " + playerColor+playerText;
-                                jsonParsedMsg.get("extra").getAsJsonArray().get(0).getAsJsonObject().addProperty("text",newVal);
+                                String newVal = tag.getTag() + " " + playerColor + playerText;
+                                jsonParsedMsg.get("extra").getAsJsonArray().get(0).getAsJsonObject().addProperty("text", newVal);
                                 event.message = IChatComponent.Serializer.jsonToComponent(jsonParsedMsg.toString());
                             }
                         } else if (groupRegex.matcher(cleanMessage).matches()) {
@@ -88,12 +88,12 @@ public class ChatListeners {
                                 String msg = parsedMatcher.group(0);
                                 List<String> msgList = new ArrayList<>(Arrays.asList(msg.split(" ")));
                                 List<String> cleanMsg = Arrays.asList(StringUtils.cleanMessage(msg).split(" "));
-                                playerName = cleanMsg.get(cleanMsg.size()-1).replaceAll(":","");
+                                playerName = cleanMsg.get(cleanMsg.size() - 1).replaceAll(":", "");
                                 Tag tag = TagCosmetics.getInstance().getTag(playerName);
                                 if (tag != null) {
-                                    msgList.add(2, tag.getFullTag());
+                                    msgList.add(2, tag.getTag());
                                     String newVal = String.join(" ", msgList);
-                                    event.message = IChatComponent.Serializer.jsonToComponent(parsedMessage.replace(msg,newVal));
+                                    event.message = IChatComponent.Serializer.jsonToComponent(parsedMessage.replace(msg, newVal));
                                 }
                             }
                         } else {
@@ -102,10 +102,10 @@ public class ChatListeners {
                             } else {
                                 playerName = splitMessage.get(0);
                             }
-                            playerName = playerName.replaceAll(":","");
+                            playerName = playerName.replaceAll(":", "");
                             Tag tag = TagCosmetics.getInstance().getTag(playerName);
                             if (tag != null) {
-                                event.message = new ChatComponentText(tag.getFullTag() + " ").appendSibling(event.message);
+                                event.message = new ChatComponentText(tag.getTag() + " ").appendSibling(event.message);
                             }
                         }
                     }

@@ -21,11 +21,16 @@ import co.skyclient.scc.cosmetics.Tag;
 import co.skyclient.scc.cosmetics.TagCosmetics;
 import net.minecraft.client.Minecraft;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Supplier;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class StringUtils {
+
+    private static final Pattern PlaceholderPattern = Pattern.compile("%([a-zA-Z]+)%");
+    private static final Map<String, Supplier<String>> placeholders = new HashMap<>();
 
     public static String cleanMessage(String msg) {
         return msg.replaceAll("\u00A7[a-f0-9kmolnr]", "");
@@ -35,98 +40,49 @@ public class StringUtils {
         return msg.replaceAll("[^\\p{L}\\p{M}\\p{N}\\p{P}\\p{Z}\\p{Cf}\\p{Cs}\\s]", "");
     }
 
-    //TODO: Make more modular and optimize it
-    public static String discordPlaceholder(String text) {
-        List<String> txt = new ArrayList<>(Arrays.asList(text.split("%")));
-
-        for (int i = 0; i < txt.toArray().length; i++) {
-            switch (txt.get(i)) {
-                case "player":
-                    try {
-                        txt.set(i, Minecraft.getMinecraft().getSession().getUsername());
-                    } catch (Exception ignored) {
-                    }
-                    break;
-                case "fps":
-                    try {
-                        txt.set(i, String.valueOf(Minecraft.getDebugFPS()));
-                    } catch (Exception ignored) {
-                        txt.set(i, "0");
-                    }
-                    break;
-                case "hand":
-                    try {
-                        txt.set(i, cleanMessage(Minecraft.getMinecraft().thePlayer.getHeldItem().getDisplayName()));
-                    } catch (Exception ignored) {
-                        txt.set(i, "Nothing");
-                    }
-                    break;
-                case "tag":
-                    try {
-                        Tag tag = TagCosmetics.getInstance().getTag(Minecraft.getMinecraft().getSession().getUsername());
-                        if (tag != null) {
-                            txt.set(i, TagCosmetics.getInstance().isInitialized() ? cleanMessage(tag.getFullTag()) : "");
-                        } else {
-                            txt.set(i, "");
-                        }
-                    } catch (Exception ignored) {
-                    }
-                    break;
-                case "shorttag":
-                    try {
-                        Tag tag = TagCosmetics.getInstance().getTag(Minecraft.getMinecraft().getSession().getUsername());
-                        if (tag != null) {
-                            txt.set(i, TagCosmetics.getInstance().isInitialized() ? cleanMessage(tag.getShortTag()) : "");
-                        } else {
-                            txt.set(i, "");
-                        }
-                    } catch (Exception ignored) {
-                    }
-                    break;
-                case "bits":
-                    try {
-                        txt.set(i, SidebarUtils.getBits());
-                    } catch (Exception ignored) {
-                    }
-                    break;
-                case "time":
-                    try {
-                        txt.set(i, SidebarUtils.getSBTime());
-                    } catch (Exception ignored) {
-                    }
-                    break;
-                case "date":
-                    try {
-                        txt.set(i, SidebarUtils.getSBDate());
-                    } catch (Exception ignored) {
-                    }
-                    break;
-                case "loc":
-                    try {
-                        txt.set(i, SidebarUtils.getSBLoc());
-                    } catch (Exception ignored) {
-                    }
-                    break;
-                case "server":
-                    try {
-                        txt.set(i, SidebarUtils.getServer());
-                    } catch (Exception ignored) {
-                    }
-                    break;
-                case "objective":
-                    try {
-                        txt.set(i, SidebarUtils.getObjective());
-                    } catch (Exception ignored) {
-                    }
-                    break;
-                case "purse":
-                    try {
-                        txt.set(i, SidebarUtils.getPurse());
-                    } catch (Exception ignored) {
-                    }
-                    break;
+    public static void initPlaceholders() {
+        placeholders.put("player", () -> Minecraft.getMinecraft().getSession().getUsername());
+        placeholders.put("fps", () -> String.valueOf(Minecraft.getDebugFPS()));
+        placeholders.put("hand", () -> cleanMessage(Minecraft.getMinecraft().thePlayer.getHeldItem().getDisplayName()));
+        placeholders.put("tag", () -> {
+            Tag tag = TagCosmetics.getInstance().getTag(Minecraft.getMinecraft().getSession().getUsername());
+            if (tag != null) {
+                return TagCosmetics.getInstance().isInitialized() ? cleanMessage(tag.getFullTag()) : "";
+            } else {
+                return "";
             }
+        });
+        placeholders.put("shorttag", () -> {
+            Tag tag = TagCosmetics.getInstance().getTag(Minecraft.getMinecraft().getSession().getUsername());
+            if (tag != null) {
+                return TagCosmetics.getInstance().isInitialized() ? cleanMessage(tag.getShortTag()) : "";
+            } else {
+                return "";
+            }
+        });
+        placeholders.put("bits", SidebarUtils::getBits);
+        placeholders.put("time", SidebarUtils::getSBTime);
+        placeholders.put("date", SidebarUtils::getSBDate);
+        placeholders.put("loc", SidebarUtils::getSBLoc);
+        placeholders.put("server", SidebarUtils::getServer);
+        placeholders.put("objective", SidebarUtils::getObjective);
+        placeholders.put("purse", SidebarUtils::getPurse);
+    }
+
+    public static String discordPlaceholder(String text) {
+        StringBuilder sb = new StringBuilder();
+        Matcher matcher = PlaceholderPattern.matcher(text);
+        int lastEnd = 0;
+        while (matcher.find()) {
+            String placeholder = matcher.group(1);
+            Supplier<String> supplier = placeholders.get(placeholder);
+            if (supplier != null) {
+                sb.append(text, lastEnd, matcher.start())
+                        .append(supplier.get());
+            }
+            lastEnd = matcher.end();
         }
-        return String.join("", txt);
+        sb.append(text.substring(lastEnd));
+        return sb.toString();
     }
 }

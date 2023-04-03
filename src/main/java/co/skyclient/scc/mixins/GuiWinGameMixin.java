@@ -12,6 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(GuiWinGame.class)
 public class GuiWinGameMixin implements GuiWinGameHook {
     private boolean mainMenu = false;
+
     @Inject(method = "sendRespawnPacket", at = @At("HEAD"), cancellable = true)
     private void onPacketSend(CallbackInfo ci) {
         if (mainMenu) {
