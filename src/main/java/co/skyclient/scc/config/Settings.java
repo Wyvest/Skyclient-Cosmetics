@@ -41,7 +41,7 @@ public class Settings extends Vigilant {
     }
 
     @Property(type = PropertyType.TEXT, name = "Discord RPC Second Line", description = "Allows you to edit the second line of the Discord RPC\n\u00A7aAllows usage of Placeholders. More info on the wiki (https://github.com/koxx12-dev/Skyclient-Cosmetics/wiki/Discord-RPC)", category = "Main", subcategory = "Discord Rich Presence")
-    public static String rpcLineTwo = "Playing Skyblock";
+    public static String rpcLineTwo = "Playing Hypixel";
 
     @Property(type = PropertyType.TEXT, name = "Discord RPC First Line", description = "Allows you to edit the first line of the Discord RPC\n\u00A7aAllows usage of Placeholders. More info on the wiki (https://github.com/koxx12-dev/Skyclient-Cosmetics/wiki/Discord-RPC)", category = "Main", subcategory = "Discord Rich Presence")
     public static String rpcLineOne = "%player% is very cool";
