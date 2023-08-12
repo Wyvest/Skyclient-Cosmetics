@@ -70,7 +70,7 @@ class ImportSlide : GreetingSlide<OptimizationSlide>(OptimizationSlide::class.ja
             progressText.setText("Downloading config locations...")
             val configLocations = arrayListOf<String>()
             try {
-                JsonParser().parse(WebUtil.fetchString("https://raw.githubusercontent.com/nacrt/SkyblockClient-REPO/main/files/config_locations.json")).asJsonArray.forEach {
+                JsonParser().parse(WebUtil.fetchString("https://raw.githubusercontent.com/SkyblockClient/SkyblockClient-REPO/main/files/config_locations.json")).asJsonArray.forEach {
                     configLocations.add(it.asString)
                 }
             } catch (e: Exception) {
@@ -78,6 +78,9 @@ class ImportSlide : GreetingSlide<OptimizationSlide>(OptimizationSlide::class.ja
                 Thread.sleep(1000)
                 e.printStackTrace()
                 configLocations.add("config")
+                configLocations.add("essential/config.toml")
+                configLocations.add("OneConfig/config")
+                configLocations.add("OneConfig/profiles")
                 configLocations.add("W-OVERFLOW")
                 configLocations.add("options.txt")
                 configLocations.add("optionsof.txt")

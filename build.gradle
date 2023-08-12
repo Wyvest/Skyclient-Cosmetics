@@ -69,7 +69,7 @@ dependencies {
     dummyBuild("gg.essential:essential-1.8.9-forge:1933")
     compileOnly("gg.essential:essential-1.8.9-forge:1933")
     include 'gg.essential:loader-launchwrapper:1.1.3'
-    include 'com.github.JnCrMx:discord-game-sdk4j:v0.5.4'
+    include 'com.github.JnCrMx:discord-game-sdk4j:v0.5.5'
     compileOnly ('org.spongepowered:mixin:0.8.5-SNAPSHOT')
     runtimeOnly ("me.djtheredstoner:DevAuth-forge-legacy:1.1.2")
 }

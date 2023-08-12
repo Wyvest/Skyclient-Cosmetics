@@ -29,6 +29,7 @@ import co.skyclient.scc.mixins.ServerListAccessor;
 import co.skyclient.scc.rpc.RPC;
 import co.skyclient.scc.utils.Files;
 import de.jcm.discordgamesdk.Core;
+import gg.essential.vigilance.Vigilant;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.ServerList;
@@ -68,6 +69,7 @@ public class SkyclientCosmetics {
     public static Logger LOGGER;
 
     public static boolean isPatcher;
+    public static Vigilant scuConfig = null;
     //private static boolean hasFailed;
 
     @Mod.EventHandler
@@ -132,12 +134,17 @@ public class SkyclientCosmetics {
         for (ModContainer mod : Loader.instance().getActiveModList()) {
             if ("patcher".equals(mod.getModId())) {
                 isPatcher = true;
-                System.out.println(StringUtils.substringBeforeLast(mod.getVersion(), "+"));
                 try {
                     if (new DefaultArtifactVersion(StringUtils.substringBeforeLast(mod.getVersion(), "+")).compareTo(new DefaultArtifactVersion("1.8.1")) > 0) {
                         OptimizationSlide.Companion.sendCTMFixNotification();
                     }
                 } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else if ("skyblockclientupdater".equals(mod.getModId())) {
+                try {
+                    scuConfig = (Vigilant) Class.forName("mynameisjeff.skyblockclientupdater.config.Config").getDeclaredField("INSTANCE").get(null);
+                } catch (ClassNotFoundException | NoSuchFieldException | IllegalAccessException e) {
                     e.printStackTrace();
                 }
             }

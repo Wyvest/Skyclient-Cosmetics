@@ -1,5 +1,6 @@
 package co.skyclient.scc.gui;
 
+import co.skyclient.scc.SkyclientCosmetics;
 import co.skyclient.scc.gui.greeting.IntroductionGreetingSlide;
 import co.skyclient.scc.gui.greeting.components.GreetingSlide;
 import co.skyclient.scc.hooks.GuiWinGameHook;
@@ -44,7 +45,7 @@ public class SkyClientMainMenu extends GuiMainMenu {
 
     static {
         try {
-            cosmeticGui = Class.forName("gg.essential.gui.studio.CosmeticStudio");
+            cosmeticGui = Class.forName("gg.essential.gui.wardrobe.Wardrobe");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -71,8 +72,13 @@ public class SkyClientMainMenu extends GuiMainMenu {
         buttonList.add(new GuiButton(2, width / 20, (height / 2) + 10, 100, 20, "§6Play Hypixel§r"));
         buttonList.add(new GuiButton(3, width / 20, (height / 2) + 40, 100, 20, "Servers"));
         buttonList.add(new GuiButton(4, width / 20, (height / 2) + 70, 100, 20, "Settings"));
-        buttonList.add(new GuiButton(5, width / 20, (height / 2) + 100, 100, 20, "Quit Game"));
-        buttonList.add(new ImageButton(new ResourceLocation("scc", "cosmetics.png"), 6, width - 22, height - 35, 20, 20));
+        if (SkyclientCosmetics.scuConfig != null) {
+            buttonList.add(new GuiButton(5, width / 20, (height / 2) + 100, 100, 20, "§6Updater§r"));
+            buttonList.add(new GuiButton(6, width / 20, (height / 2) + 130, 100, 20, "Quit Game"));
+        } else {
+            buttonList.add(new GuiButton(6, width / 20, (height / 2) + 100, 100, 20, "Quit Game"));
+        }
+        buttonList.add(new ImageButton(new ResourceLocation("scc", "cosmetics.png"), 7, width - 22, height - 35, 20, 20));
         //buttonList.add(new ImageButton(new ResourceLocation("scc", "essential4.png"), 7, width - 22, height - 35, 20, 20));
     }
 
@@ -92,9 +98,12 @@ public class SkyClientMainMenu extends GuiMainMenu {
                 this.mc.displayGuiScreen(new GuiOptions(this, this.mc.gameSettings));
                 break;
             case 5:
-                this.mc.shutdown();
+                this.mc.displayGuiScreen(SkyclientCosmetics.scuConfig.gui());
                 break;
             case 6:
+                this.mc.shutdown();
+                break;
+            case 7:
                 try {
                     this.mc.displayGuiScreen((GuiScreen) cosmeticGui.getDeclaredConstructor().newInstance());
                 } catch (InstantiationException | IllegalAccessException | NoSuchMethodException |
