@@ -90,6 +90,16 @@ public class CustomSplashProgress {
         return Boolean.parseBoolean(getString(name, Boolean.toString(def)));
     }
 
+    private static String fetchOneLine(String source) {
+        String stringList = WebUtil.fetchString(source);
+        if (stringList != null) {
+            String[] lines = stringList.split("\n");
+            int index = (int) (Math.random() * lines.length);
+            return lines[index];
+        }
+        return null;
+    }
+
     public static void start() {
         File configFile = new File(Minecraft.getMinecraft().mcDataDir, "config/splash.properties");
 
@@ -186,11 +196,10 @@ public class CustomSplashProgress {
 
         Multithreading.runAsync(() -> {
             try {
-                String text = WebUtil.fetchString("https://cdn.jsdelivr.net/gh/KTibow/Skyclient@main/docs/assets/funfacts.txt");
-                if (text != null) {
-                    String[] lines = text.split("\n");
-                    int index = (int) (Math.random() * lines.length);
-                    funFact = lines[index];
+                if (Math.random() > 0.4) {
+                    funFact = fetchOneLine("https://cdn.jsdelivr.net/gh/KTibow/Skyclient@main/docs/assets/funfacts.txt");
+                } else {
+                    funFact = fetchOneLine("https://cdn.jsdelivr.net/gh/KTibow/Skyclient@main/docs/assets/unfunfacts.txt");
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -267,9 +276,11 @@ public class CustomSplashProgress {
                         glScalef(2, 2, 1);
                         glEnable(GL_TEXTURE_2D);
                         int offset = 0;
-                        for (String segment : funFact.split("\\\\n")) {
-                            fontRenderer.drawString(segment, 160 - (fontRenderer.getStringWidth(segment) / 2), 180 - textHeight2 + offset, 0x000000);
-                            offset += 10;
+                        if (funFact != null && !funFact.isEmpty()) {
+                            for (String segment : funFact.split("\\\\n")) {
+                                fontRenderer.drawString(segment, 160 - (fontRenderer.getStringWidth(segment) / 2), 180 - textHeight2 + offset, 0x000000);
+                                offset += 10;
+                            }
                         }
                         glDisable(GL_TEXTURE_2D);
                         glPopMatrix();
@@ -291,7 +302,7 @@ public class CustomSplashProgress {
                     } else {
                         if (first != null) {
                             glPushMatrix();
-                            glTranslatef(320 - (float) barWidth / 2, 310, 0);
+                            glTranslatef(320 - (float) barWidth / 2, 320, 0);
                             drawBar(first);
                             int barOffset = 55;
                             if (penult != null) {
