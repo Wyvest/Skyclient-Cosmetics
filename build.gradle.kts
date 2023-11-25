@@ -99,7 +99,9 @@ dependencies {
     modRuntimeOnly("me.djtheredstoner:DevAuth-${if (platform.isFabric) "fabric" else if (platform.isLegacyForge) "forge-legacy" else "forge-latest"}:1.1.2")
 
     shade("com.github.JnCrMx:discord-game-sdk4j:v0.5.5")
-    shade("cc.polyfrost:elementa-$platform:560")
+    shade("cc.polyfrost:elementa-$platform:560") {
+        isTransitive = false
+    }
 
     // If we are building for legacy forge, includes the launch wrapper with `shade` as we configured earlier.
     if (platform.isLegacyForge) {
