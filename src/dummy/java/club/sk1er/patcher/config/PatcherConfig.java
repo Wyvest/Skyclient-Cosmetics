@@ -1,10 +1,6 @@
 package club.sk1er.patcher.config;
 
-import gg.essential.vigilance.Vigilant;
-
-import java.io.File;
-
-public class PatcherConfig extends Vigilant {
+public class PatcherConfig {
     public static boolean hudCaching;
     public static boolean cullingFix;
     public static boolean separateResourceLoading;
@@ -21,7 +17,11 @@ public class PatcherConfig extends Vigilant {
 
     public static PatcherConfig INSTANCE = new PatcherConfig();
 
-    public PatcherConfig() {
-        super(new File(""));
+    public void markDirty() {
+        // lol
+    }
+
+    public void writeData() {
+        // lol
     }
 }

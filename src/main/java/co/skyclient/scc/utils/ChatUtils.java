@@ -17,8 +17,8 @@
 
 package co.skyclient.scc.utils;
 
-import gg.essential.api.EssentialAPI;
-import gg.essential.universal.ChatColor;
+import cc.polyfrost.oneconfig.libs.universal.ChatColor;
+import cc.polyfrost.oneconfig.libs.universal.UChat;
 import net.minecraft.client.Minecraft;
 
 public class ChatUtils {
@@ -27,7 +27,7 @@ public class ChatUtils {
 
     public static void sendSystemMessage(String message) {
         if (mc.theWorld != null) {
-            EssentialAPI.getMinecraftUtil().sendMessage(ChatColor.DARK_GREEN + "[" + ChatColor.AQUA + "SkyClien" + ChatColor.DARK_AQUA + "'" + ChatColor.AQUA + "t Cosmetics" + ChatColor.DARK_GREEN + "]" + ChatColor.WHITE + ": ", message);
+            UChat.chat(ChatColor.DARK_GREEN + "[" + ChatColor.AQUA + "SkyClien" + ChatColor.DARK_AQUA + "'" + ChatColor.AQUA + "t Cosmetics" + ChatColor.DARK_GREEN + "]" + ChatColor.WHITE + ": " + message);
         }
     }
 

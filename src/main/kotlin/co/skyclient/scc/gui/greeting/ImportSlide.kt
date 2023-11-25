@@ -1,15 +1,15 @@
 package co.skyclient.scc.gui.greeting
 
-import gg.essential.api.utils.Multithreading
-import gg.essential.api.utils.WebUtil
-import gg.essential.elementa.components.UIText
-import gg.essential.elementa.components.UIWrappedText
-import gg.essential.elementa.components.Window
-import gg.essential.elementa.constraints.CenterConstraint
-import gg.essential.elementa.constraints.SiblingConstraint
-import gg.essential.elementa.dsl.*
-import gg.essential.universal.ChatColor
-import gg.essential.vigilance.gui.settings.ButtonComponent
+import cc.polyfrost.oneconfig.libs.elementa.components.UIText
+import cc.polyfrost.oneconfig.libs.elementa.components.UIWrappedText
+import cc.polyfrost.oneconfig.libs.elementa.components.Window
+import cc.polyfrost.oneconfig.libs.elementa.constraints.CenterConstraint
+import cc.polyfrost.oneconfig.libs.elementa.constraints.SiblingConstraint
+import cc.polyfrost.oneconfig.libs.elementa.dsl.*
+import cc.polyfrost.oneconfig.libs.universal.ChatColor
+import cc.polyfrost.oneconfig.utils.Multithreading
+import cc.polyfrost.oneconfig.utils.NetworkUtils
+import co.skyclient.scc.gui.greeting.components.ButtonComponent
 import co.skyclient.scc.gui.greeting.components.CorrectOutsidePixelConstraint
 import co.skyclient.scc.gui.greeting.components.GreetingSlide
 import com.google.gson.JsonParser
@@ -70,7 +70,7 @@ class ImportSlide : GreetingSlide<OptimizationSlide>(OptimizationSlide::class.ja
             progressText.setText("Downloading config locations...")
             val configLocations = arrayListOf<String>()
             try {
-                JsonParser().parse(WebUtil.fetchString("https://raw.githubusercontent.com/SkyblockClient/SkyblockClient-REPO/main/files/config_locations.json")).asJsonArray.forEach {
+                NetworkUtils.getJsonElement("https://raw.githubusercontent.com/SkyblockClient/SkyblockClient-REPO/main/files/config_locations.json").asJsonArray.forEach {
                     configLocations.add(it.asString)
                 }
             } catch (e: Exception) {

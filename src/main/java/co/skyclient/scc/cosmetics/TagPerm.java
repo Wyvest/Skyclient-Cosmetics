@@ -1,12 +1,11 @@
 package co.skyclient.scc.cosmetics;
 
+import cc.polyfrost.oneconfig.utils.NetworkUtils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import gg.essential.api.EssentialAPI;
+import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
-import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 
 public class TagPerm {
     private final String identifier;
@@ -17,14 +16,19 @@ public class TagPerm {
         for (JsonElement element : users) {
             String uuid = element.getAsString();
             try {
-                CompletableFuture<String> profile = EssentialAPI.getMojangAPI().getName(UUID.fromString(uuid.substring(0, 8) + "-" + uuid.substring(8, 12) + "-" + uuid.substring(12, 16) + "-" + uuid.substring(16, 20) + "-" + uuid.substring(20)));
-                if (profile != null) profiles.add(profile.get());
+                String profile = getName(uuid.substring(0, 8) + "-" + uuid.substring(8, 12) + "-" + uuid.substring(12, 16) + "-" + uuid.substring(16, 20) + "-" + uuid.substring(20));
+                if (profile != null) profiles.add(profile);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
         this.users = profiles;
         this.identifier = identifier;
+    }
+
+    public static String getName(String uuid) {
+        JsonObject object = NetworkUtils.getJsonElement("https://sessionserver.mojang.com/session/minecraft/profile/" + uuid).getAsJsonObject();
+        return object.get("name").getAsString();
     }
 
     public ArrayList<String> getUsers() {

@@ -1,12 +1,12 @@
 package co.skyclient.scc.gui.greeting
 
 import co.skyclient.scc.gui.greeting.components.GreetingSlide
-import gg.essential.elementa.components.UIWrappedText
-import gg.essential.elementa.constraints.CenterConstraint
-import gg.essential.elementa.dsl.*
-import gg.essential.universal.ChatColor
-import gg.essential.universal.UDesktop
-import gg.essential.vigilance.utils.onLeftClick
+import cc.polyfrost.oneconfig.libs.elementa.components.UIWrappedText
+import cc.polyfrost.oneconfig.libs.elementa.constraints.CenterConstraint
+import cc.polyfrost.oneconfig.libs.elementa.dsl.*
+import cc.polyfrost.oneconfig.libs.universal.ChatColor
+import cc.polyfrost.oneconfig.libs.universal.UDesktop
+import co.skyclient.scc.gui.greeting.components.onLeftClick
 import java.net.URI
 
 class DiscordSlide : GreetingSlide<ImportSlide>(ImportSlide::class.java) {

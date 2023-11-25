@@ -1,10 +1,10 @@
 package co.skyclient.scc.cosmetics;
 
+import cc.polyfrost.oneconfig.libs.universal.ChatColor;
+import cc.polyfrost.oneconfig.utils.Multithreading;
+import cc.polyfrost.oneconfig.utils.NetworkUtils;
 import co.skyclient.scc.utils.Files;
 import com.google.gson.*;
-import gg.essential.api.utils.Multithreading;
-import gg.essential.api.utils.WebUtil;
-import gg.essential.universal.ChatColor;
 import org.apache.commons.io.FileUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -42,7 +42,7 @@ public class TagCosmetics {
         Multithreading.runAsync(() -> {
             try {
                 try {
-                    rawData = new JsonParser().parse(Objects.requireNonNull(WebUtil.fetchString("https://cdn.jsdelivr.net/gh/KTibow/Skyclient@main/docs/assets/tags.json")).replace('&', ChatColor.COLOR_CHAR)).getAsJsonObject();
+                    rawData = new JsonParser().parse(Objects.requireNonNull(NetworkUtils.getString("https://cdn.jsdelivr.net/gh/KTibow/Skyclient@main/docs/assets/tags.json")).replace('&', ChatColor.COLOR_CHAR)).getAsJsonObject();
                     Multithreading.runAsync(() -> {
                         try {
                             FileUtils.writeStringToFile(cacheFile, GSON.toJson(rawData), StandardCharsets.UTF_8);

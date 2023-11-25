@@ -1,6 +1,6 @@
 package co.skyclient.scc.utils;
 
-import gg.essential.universal.UDesktop;
+import cc.polyfrost.oneconfig.libs.universal.UDesktop;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

@@ -17,6 +17,7 @@
 
 package co.skyclient.scc;
 
+import cc.polyfrost.oneconfig.utils.commands.CommandManager;
 import club.sk1er.patcher.config.PatcherConfig;
 import co.skyclient.scc.commands.SccComand;
 import co.skyclient.scc.config.Settings;
@@ -29,7 +30,6 @@ import co.skyclient.scc.mixins.ServerListAccessor;
 import co.skyclient.scc.rpc.RPC;
 import co.skyclient.scc.utils.Files;
 import de.jcm.discordgamesdk.Core;
-import gg.essential.vigilance.Vigilant;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.ServerList;
@@ -69,7 +69,8 @@ public class SkyclientCosmetics {
     public static Logger LOGGER;
 
     public static boolean isPatcher;
-    public static Vigilant scuConfig = null;
+    public static boolean isEssential;
+    public static Object scuConfig = null;
     //private static boolean hasFailed;
 
     @Mod.EventHandler
@@ -107,7 +108,7 @@ public class SkyclientCosmetics {
 
         progress.step("Registering Commands");
 
-        new SccComand().register();
+        CommandManager.INSTANCE.registerCommand(new SccComand());
 
         progress.step("Loading Tags");
 
@@ -143,10 +144,12 @@ public class SkyclientCosmetics {
                 }
             } else if ("skyblockclientupdater".equals(mod.getModId())) {
                 try {
-                    scuConfig = (Vigilant) Class.forName("mynameisjeff.skyblockclientupdater.config.Config").getDeclaredField("INSTANCE").get(null);
+                    scuConfig = Class.forName("mynameisjeff.skyblockclientupdater.config.Config").getDeclaredField("INSTANCE").get(null);
                 } catch (ClassNotFoundException | NoSuchFieldException | IllegalAccessException e) {
                     e.printStackTrace();
                 }
+            } else if ("essential".equals(mod.getModId())) {
+                isEssential = true;
             }
         }
 

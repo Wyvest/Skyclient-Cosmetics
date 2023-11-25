@@ -1,12 +1,12 @@
 package co.skyclient.scc.gui.greeting.components
 
-import gg.essential.elementa.UIComponent
-import gg.essential.elementa.constraints.ConstraintType
-import gg.essential.elementa.constraints.HeightConstraint
-import gg.essential.elementa.constraints.WidthConstraint
-import gg.essential.elementa.constraints.resolution.ConstraintVisitor
-import gg.essential.elementa.state.BasicState
-import gg.essential.elementa.state.State
+import cc.polyfrost.oneconfig.libs.elementa.UIComponent
+import cc.polyfrost.oneconfig.libs.elementa.constraints.ConstraintType
+import cc.polyfrost.oneconfig.libs.elementa.constraints.HeightConstraint
+import cc.polyfrost.oneconfig.libs.elementa.constraints.WidthConstraint
+import cc.polyfrost.oneconfig.libs.elementa.constraints.resolution.ConstraintVisitor
+import cc.polyfrost.oneconfig.libs.elementa.state.BasicState
+import cc.polyfrost.oneconfig.libs.elementa.state.State
 
 class HeightRelativeConstraint(value: Float) : WidthConstraint, HeightConstraint {
     override var cachedValue = 0f

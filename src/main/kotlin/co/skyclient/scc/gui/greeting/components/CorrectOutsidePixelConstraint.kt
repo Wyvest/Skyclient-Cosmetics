@@ -1,9 +1,9 @@
 package co.skyclient.scc.gui.greeting.components
 
-import gg.essential.elementa.UIComponent
-import gg.essential.elementa.constraints.ConstraintType
-import gg.essential.elementa.constraints.XConstraint
-import gg.essential.elementa.constraints.resolution.ConstraintVisitor
+import cc.polyfrost.oneconfig.libs.elementa.UIComponent
+import cc.polyfrost.oneconfig.libs.elementa.constraints.ConstraintType
+import cc.polyfrost.oneconfig.libs.elementa.constraints.XConstraint
+import cc.polyfrost.oneconfig.libs.elementa.constraints.resolution.ConstraintVisitor
 
 class CorrectOutsidePixelConstraint(
     private val value: Float

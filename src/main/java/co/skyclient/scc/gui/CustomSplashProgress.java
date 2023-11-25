@@ -1,7 +1,7 @@
 package co.skyclient.scc.gui;
 
-import gg.essential.api.utils.Multithreading;
-import gg.essential.api.utils.WebUtil;
+import cc.polyfrost.oneconfig.utils.Multithreading;
+import cc.polyfrost.oneconfig.utils.NetworkUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.texture.TextureManager;
@@ -186,7 +186,7 @@ public class CustomSplashProgress {
 
         Multithreading.runAsync(() -> {
             try {
-                String text = WebUtil.fetchString("https://cdn.jsdelivr.net/gh/KTibow/Skyclient@main/docs/assets/funfacts.txt");
+                String text = NetworkUtils.getString("https://cdn.jsdelivr.net/gh/KTibow/Skyclient@main/docs/assets/funfacts.txt");
                 if (text != null) {
                     String[] lines = text.split("\n");
                     int index = (int) (Math.random() * lines.length);

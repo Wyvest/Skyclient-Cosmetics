@@ -20,7 +20,6 @@ package co.skyclient.scc.listeners;
 import co.skyclient.scc.SkyclientCosmetics;
 import co.skyclient.scc.config.Settings;
 import co.skyclient.scc.gui.SkyClientMainMenu;
-import gg.essential.api.EssentialAPI;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiIngameMenu;
@@ -43,7 +42,7 @@ public class GuiListeners {
     @SubscribeEvent
     public void onGuiAction(GuiScreenEvent.ActionPerformedEvent.Post event) {
         if (event.gui instanceof GuiIngameMenu && event.button.id == 2666487) {
-            EssentialAPI.getGuiUtil().openScreen(SkyclientCosmetics.config.gui());
+            SkyclientCosmetics.config.openGui();
         }
     }
 

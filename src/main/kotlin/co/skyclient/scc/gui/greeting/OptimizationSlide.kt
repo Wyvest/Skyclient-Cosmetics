@@ -5,19 +5,19 @@ import co.skyclient.scc.SkyclientCosmetics
 import co.skyclient.scc.gui.greeting.components.CorrectOutsidePixelConstraint
 import co.skyclient.scc.gui.greeting.components.GreetingSlide
 import co.skyclient.scc.utils.Files
-import co.skyclient.scc.utils.TickDelay
-import gg.essential.api.EssentialAPI
-import gg.essential.api.utils.Multithreading
-import gg.essential.elementa.components.UIText
-import gg.essential.elementa.components.UIWrappedText
-import gg.essential.elementa.components.Window
-import gg.essential.elementa.constraints.CenterConstraint
-import gg.essential.elementa.constraints.SiblingConstraint
-import gg.essential.elementa.dsl.*
-import gg.essential.universal.ChatColor
-import gg.essential.universal.UDesktop
-import gg.essential.vigilance.gui.settings.ButtonComponent
-import gg.essential.vigilance.utils.onLeftClick
+import cc.polyfrost.oneconfig.libs.elementa.components.UIText
+import cc.polyfrost.oneconfig.libs.elementa.components.UIWrappedText
+import cc.polyfrost.oneconfig.libs.elementa.components.Window
+import cc.polyfrost.oneconfig.libs.elementa.constraints.CenterConstraint
+import cc.polyfrost.oneconfig.libs.elementa.constraints.SiblingConstraint
+import cc.polyfrost.oneconfig.libs.elementa.dsl.*
+import cc.polyfrost.oneconfig.libs.universal.ChatColor
+import cc.polyfrost.oneconfig.libs.universal.UDesktop
+import cc.polyfrost.oneconfig.utils.Multithreading
+import cc.polyfrost.oneconfig.utils.Notifications
+import cc.polyfrost.oneconfig.utils.dsl.tick
+import co.skyclient.scc.gui.greeting.components.ButtonComponent
+import co.skyclient.scc.gui.greeting.components.onLeftClick
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiMainMenu
 import net.minecraft.client.settings.GameSettings
@@ -61,7 +61,7 @@ class OptimizationSlide : GreetingSlide<HUDChachySlide>(HUDChachySlide::class.ja
 
     val yesButton by ButtonComponent("${ChatColor.GREEN}Yes") {
         progressText.setText("Applying optimized settings... This might take a while...")
-        TickDelay(2) {
+        tick(2) {
             if (isOptifineLoaded()) {
                 try {
                     val settingsClass: Class<GameSettings> = mc.gameSettings.javaClass
@@ -146,7 +146,7 @@ class OptimizationSlide : GreetingSlide<HUDChachySlide>(HUDChachySlide::class.ja
             mc.gameSettings.loadOptions()
             mc.refreshResources()
             mc.renderGlobal.loadRenderers()
-            TickDelay(2) {
+            tick(2) {
                 Window.enqueueRenderOperation { displayNextScreen() }
             }
         }
@@ -180,7 +180,7 @@ class OptimizationSlide : GreetingSlide<HUDChachySlide>(HUDChachySlide::class.ja
                         try {
                             property.getInt(Minecraft.getMinecraft().gameSettings).let {
                                 if (it == 0 || it == 3) {
-                                    EssentialAPI.getNotifications().push("SkyClientCosmetics", "New versions of Patcher fixes the Connected Textures crash on Forge.\n\nClick here to enable Connected Textures!", duration = 10f, action = {
+                                    Notifications.INSTANCE.send("SkyClientCosmetics", "New versions of Patcher fixes the Connected Textures crash on Forge.\n\nClick here to enable Connected Textures!", 10000f, Runnable {
                                         if (Minecraft.getMinecraft().theWorld != null) {
                                             Minecraft.getMinecraft().theWorld.sendQuittingDisconnectingPacket()
                                             Minecraft.getMinecraft().loadWorld(null)
@@ -195,7 +195,7 @@ class OptimizationSlide : GreetingSlide<HUDChachySlide>(HUDChachySlide::class.ja
                                                     property.setInt(Minecraft.getMinecraft().gameSettings, 2)
                                                 } catch (e: Exception) {
                                                     e.printStackTrace()
-                                                    EssentialAPI.getNotifications().push("SkyClientCosmetics", "Failed to enable Connected Textures! Enable it manually in Options -> Video Settings -> Quality -> Connected Textures.", duration = 10f)
+                                                    Notifications.INSTANCE.send("SkyClientCosmetics", "Failed to enable Connected Textures! Enable it manually in Options -> Video Settings -> Quality -> Connected Textures.", 10000f)
                                                     return@addScheduledTask
                                                 }
                                                 Minecraft.getMinecraft().gameSettings.saveOptions()

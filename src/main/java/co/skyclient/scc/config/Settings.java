@@ -17,58 +17,51 @@
 
 package co.skyclient.scc.config;
 
+import cc.polyfrost.oneconfig.config.Config;
+import cc.polyfrost.oneconfig.config.annotations.Button;
+import cc.polyfrost.oneconfig.config.annotations.Switch;
+import cc.polyfrost.oneconfig.config.annotations.Text;
+import cc.polyfrost.oneconfig.config.data.Mod;
+import cc.polyfrost.oneconfig.config.data.ModType;
+import cc.polyfrost.oneconfig.config.migration.VigilanceMigrator;
 import co.skyclient.scc.cosmetics.TagCosmetics;
-import gg.essential.vigilance.Vigilant;
-import gg.essential.vigilance.data.Property;
-import gg.essential.vigilance.data.PropertyType;
 
-import java.io.File;
+public class Settings extends Config {
 
-public class Settings extends Vigilant {
-
-    @Property(type = PropertyType.SWITCH, name = "Custom Main Menu", description = "Enable the SkyClient Custom Main Menu.", category = "Main")
+    @Switch(name = "Custom Main Menu", description = "Enable the SkyClient Custom Main Menu.", category = "Main")
     public static boolean customMainMenu = true;
 
-    @Property(type = PropertyType.SWITCH, name = "Show Custom Tags", description = "Show the custom tags, which are the main focus of this mod.", category = "Main", subcategory = "Tags")
+    @Switch(name = "Show Custom Tags", description = "Show the custom tags, which are the main focus of this mod.", category = "Main", subcategory = "Tags")
     public static boolean showTags = true;
 
-    @Property(type = PropertyType.SWITCH, name = "Shorten Custom Tags", description = "Use shorter tags.\n[BOOSTER] becomes [B], for example.", category = "Main", subcategory = "Tags")
+    @Switch(name = "Shorten Custom Tags", description = "Use shorter tags.\n[BOOSTER] becomes [B], for example.", category = "Main", subcategory = "Tags")
     public static boolean shortenTags = false;
 
-    @Property(type = PropertyType.BUTTON, name = "Reload Tags", description = "Reloads the custom tags.", category = "Main", subcategory = "Tags", placeholder = "Reload")
+    @Button(name = "Reload Tags", description = "Reloads the custom tags.", category = "Misc", subcategory = "Tags", text = "Reload")
     public static void reloadTags() {
         if (TagCosmetics.getInstance().isInitialized()) TagCosmetics.getInstance().reInitialize();
     }
 
-    @Property(type = PropertyType.TEXT, name = "Discord RPC Second Line", description = "Allows you to edit the second line of the Discord RPC\n\u00A7aAllows usage of Placeholders. More info on the wiki (https://github.com/koxx12-dev/Skyclient-Cosmetics/wiki/Discord-RPC)", category = "Main", subcategory = "Discord Rich Presence")
+    @Text(name = "Discord RPC Second Line", description = "Allows you to edit the second line of the Discord RPC\n\u00A7aAllows usage of Placeholders. More info on the wiki (https://github.com/koxx12-dev/Skyclient-Cosmetics/wiki/Discord-RPC)", category = "Main", subcategory = "Discord Rich Presence")
     public static String rpcLineTwo = "Playing Hypixel";
 
-    @Property(type = PropertyType.TEXT, name = "Discord RPC First Line", description = "Allows you to edit the first line of the Discord RPC\n\u00A7aAllows usage of Placeholders. More info on the wiki (https://github.com/koxx12-dev/Skyclient-Cosmetics/wiki/Discord-RPC)", category = "Main", subcategory = "Discord Rich Presence")
+    @Text(name = "Discord RPC First Line", description = "Allows you to edit the first line of the Discord RPC\n\u00A7aAllows usage of Placeholders. More info on the wiki (https://github.com/koxx12-dev/Skyclient-Cosmetics/wiki/Discord-RPC)", category = "Main", subcategory = "Discord Rich Presence")
     public static String rpcLineOne = "%player% is very cool";
 
-    @Property(type = PropertyType.TEXT, name = "Discord RPC Img Text", description = "Allows you to set text of the img\n\u00A7aAllows usage of Placeholders. More info on the wiki (https://github.com/koxx12-dev/Skyclient-Cosmetics/wiki/Discord-RPC)", category = "Main", subcategory = "Discord Rich Presence")
+    @Text(name = "Discord RPC Img Text", description = "Allows you to set text of the img\n\u00A7aAllows usage of Placeholders. More info on the wiki (https://github.com/koxx12-dev/Skyclient-Cosmetics/wiki/Discord-RPC)", category = "Main", subcategory = "Discord Rich Presence")
     public static String rpcImgText = "SkyClient is cool";
 
-    @Property(type = PropertyType.SWITCH, name = "Discord RPC", description = "Enables Discord RPC", category = "Main", subcategory = "Discord Rich Presence")
+    @Switch(name = "Discord RPC", description = "Enables Discord RPC", category = "Main", subcategory = "Discord Rich Presence")
     public static boolean rpc = true;
 
-    @Property(type = PropertyType.SWITCH, name = "First Time Message", description = "Get \"First time message\" when u join next time", category = "Misc", subcategory = "Chat", hidden = true)
+    @Switch(name = "First Time Message", description = "Get \"First time message\" when u join next time", category = "Misc", subcategory = "Chat")
     public static boolean joinMessage = true;
 
-//    @Property(type = PropertyType.SWITCH, name = "SBE Sucks Mode", description = "https://github.com/MicrocontrollersDev/Alternatives/blob/1e409e056e3e14ca874a2368c045de96787e8cbd/SkyblockExtras.md", category = "Main", subcategory = "Discord Rich Presence")
-//    public static boolean sbeBadMode = false;
-
-    @Property(type = PropertyType.SWITCH, name = "Tags in Display Names", description = "Shows tags above player names\n\u00A7c(May crash)", category = "Main", subcategory = "Tags")
+    @Switch(name = "Tags in Display Names", description = "Shows tags above player names\n\u00A7c(May crash)", category = "Misc", subcategory = "Tags")
     public static boolean displayTags = false;
 
-    @Property(type = PropertyType.TEXT, name = "Hypixel API key", description = "Hypixel API key used for requests", category = "Main", subcategory = "Hypixel", protectedText = true)
-    public static String hpApiKey = "";
-
-    //@Property(type = PropertyType.TEXT, name = "Skyclient Cosmetics API key", description = "SkyclientCosmetics Api key is used for every feature of this mod", category = "Main", subcategory = "Main", protectedText = true)
-    //public static String SCCApiKey = "";
-
     public Settings() {
-        super(new File("./SkyclientCosmetics/skyclientcosmetics.toml"));
+        super(new Mod("SkyClientCosmetics", ModType.UTIL_QOL, "/assets/scc/SkyClient.png", new VigilanceMigrator("./SkyclientCosmetics/skyclientcosmetics.toml")), "skyclientcosmetics.json");
 
         //final Class<Settings> SettingsClass = Settings.class;
 
@@ -78,6 +71,7 @@ public class Settings extends Vigilant {
         addDependency("rpcLineTwo", "rpc");
         addDependency("rpcLineOne", "rpc");
         addDependency("rpcImgText", "rpc");
+        hideIf("joinMessage", () -> true);
 
         addDependency("shortenTags", "showTags");
         //addDependency("reloadTags","showTags");

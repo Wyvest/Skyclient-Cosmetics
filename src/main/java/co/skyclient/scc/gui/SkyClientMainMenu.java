@@ -1,14 +1,17 @@
 package co.skyclient.scc.gui;
 
+import cc.polyfrost.oneconfig.config.Config;
+import cc.polyfrost.oneconfig.libs.universal.ChatColor;
+import cc.polyfrost.oneconfig.libs.universal.USound;
+import cc.polyfrost.oneconfig.utils.NetworkUtils;
+import cc.polyfrost.oneconfig.utils.Notifications;
+import cc.polyfrost.oneconfig.utils.TickDelay;
+import cc.polyfrost.oneconfig.utils.gui.GuiUtils;
 import co.skyclient.scc.SkyclientCosmetics;
 import co.skyclient.scc.gui.greeting.IntroductionGreetingSlide;
 import co.skyclient.scc.gui.greeting.components.GreetingSlide;
 import co.skyclient.scc.hooks.GuiWinGameHook;
 import co.skyclient.scc.utils.Files;
-import co.skyclient.scc.utils.TickDelay;
-import gg.essential.api.EssentialAPI;
-import gg.essential.universal.ChatColor;
-import gg.essential.universal.USound;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.multiplayer.ServerData;
@@ -98,7 +101,25 @@ public class SkyClientMainMenu extends GuiMainMenu {
                 this.mc.displayGuiScreen(new GuiOptions(this, this.mc.gameSettings));
                 break;
             case 5:
-                this.mc.displayGuiScreen(SkyclientCosmetics.scuConfig.gui());
+                if (SkyclientCosmetics.scuConfig != null) {
+                    if (SkyclientCosmetics.scuConfig instanceof Config) {
+                        try {
+                            ((Config) SkyclientCosmetics.scuConfig).openGui();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        try {
+                            GuiUtils.displayScreen((GuiScreen) Class.forName("gg.essential.vigilance.Vigilant").getDeclaredMethod("gui").invoke(SkyclientCosmetics.scuConfig));
+                        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException |
+                                 ClassNotFoundException e) {
+                            e.printStackTrace();
+                            Notifications.INSTANCE.send("SkyClient", "§cFailed to open SkyClient Updater GUI. Please go to inv.wtf/skyclient to fix this issue.", () -> {
+                                NetworkUtils.browseLink("https://inv.wtf/skyclient");
+                            });
+                        }
+                    }
+                }
                 break;
             case 6:
                 this.mc.shutdown();
@@ -242,14 +263,14 @@ public class SkyClientMainMenu extends GuiMainMenu {
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         if (!Files.greetingFile.exists()) {
-            new TickDelay(2, () -> {
+            new TickDelay(() -> {
                 try {
                     Class<GreetingSlide<?>> clazz = GreetingSlide.Companion.getCurrentSlide();
                     Minecraft.getMinecraft().displayGuiScreen(clazz != null ? clazz.newInstance() : new IntroductionGreetingSlide());
                 } catch (InstantiationException | IllegalAccessException e) {
                     e.printStackTrace();
                 }
-            });
+            }, 2);
         }
         //background
         GlStateManager.disableAlpha();
@@ -312,7 +333,7 @@ public class SkyClientMainMenu extends GuiMainMenu {
             if (isMouseOver) {
                 GuiWinGame gui = new GuiWinGame();
                 ((GuiWinGameHook) gui).setMainMenu();
-                EssentialAPI.getGuiUtil().openScreen(gui);
+                GuiUtils.displayScreen(gui);
                 USound.INSTANCE.playButtonPress();
             }
             for (int i = 0; i < this.buttonList.size(); ++i) {

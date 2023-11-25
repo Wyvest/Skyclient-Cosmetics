@@ -17,18 +17,13 @@
 
 package co.skyclient.scc.listeners;
 
-import co.skyclient.scc.SkyclientCosmetics;
+import cc.polyfrost.oneconfig.libs.universal.ChatColor;
 import co.skyclient.scc.config.Settings;
 import co.skyclient.scc.cosmetics.Tag;
 import co.skyclient.scc.cosmetics.TagCosmetics;
-import co.skyclient.scc.utils.ChatUtils;
 import co.skyclient.scc.utils.StringUtils;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import gg.essential.api.utils.Multithreading;
-import gg.essential.api.utils.WebUtil;
-import gg.essential.universal.ChatColor;
-import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.IChatComponent;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
@@ -43,8 +38,6 @@ import java.util.regex.Pattern;
 public class ChatListeners {
 
     //TODO: Stop using fucking regexes and make this more modular also optimize this mess
-
-    public static Pattern hypixelAPIKeyMsgRegex = Pattern.compile("Your new API key is [0-9a-z]{8}-([0-9a-z]{4}-){3}[0-9a-z]{12}");
 
     public static Pattern chatRegex = Pattern.compile("((To|From)\\s)?((Guild|Co-op|Officer|Party)\\s\\>\\s)?(\\[(MVP|VIP|PIG|YOUTUBE|MOD|HELPER|ADMIN|OWNER|MOJANG|SLOTH|EVENTS|MCP)([\\+]{1,2})?\\]\\s)?[\\w]+:\\s.*");
     public static Pattern dmRegex = Pattern.compile("((To|From)\\s)(\\[(MVP|VIP|PIG|YOUTUBE|MOD|HELPER|ADMIN|OWNER|MOJANG|SLOTH|EVENTS|MCP)([\\+]{1,2})?\\]\\s)?[\\w]+:\\s.*");
@@ -113,39 +106,6 @@ public class ChatListeners {
 
             } catch (Exception e) {
                 e.printStackTrace();
-            }
-        }
-    }
-
-    @SubscribeEvent
-    public void onChatMsgHpApi(ClientChatReceivedEvent event) {
-        if (event.type == 0) {
-            String msg = StringUtils.cleanMessage(event.message.getUnformattedText());
-            if (msg.contains("Your new API key is ")) {
-                Matcher match = hypixelAPIKeyMsgRegex.matcher(msg);
-                if (match.find()) {
-                    String cleanMsg = match.group();
-                    String key = cleanMsg.replace("Your new API key is ", "");
-                    SkyclientCosmetics.LOGGER.info(key);
-                    ChatUtils.sendSystemMessage(ChatColor.GREEN + "Checking API key");
-                    Multithreading.runAsync(() -> {
-                        try {
-                            JsonObject response = WebUtil.fetchJSON("https://api.hypixel.net/key?key=" + key).getObject();
-
-                            if (response.get("success").getAsBoolean() && response.get("record").getAsJsonObject().get("owner").getAsString().replaceAll("-", "").equals(Minecraft.getMinecraft().getSession().getPlayerID())) {
-                                ChatUtils.sendSystemMessage(ChatColor.GREEN + "Verified API key!");
-                                Settings.hpApiKey = key;
-                                SkyclientCosmetics.config.markDirty();
-                                SkyclientCosmetics.config.writeData();
-                            } else {
-                                ChatUtils.sendSystemMessage(ChatColor.RED + "Couldn't verify \"" + key + "\" as a API key");
-                            }
-
-                        } catch (Exception e) {
-                            ChatUtils.sendSystemMessage(ChatColor.RED + "\"" + key + "\" is not a valid API key");
-                        }
-                    });
-                }
             }
         }
     }

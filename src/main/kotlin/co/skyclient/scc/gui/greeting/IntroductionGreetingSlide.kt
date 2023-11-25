@@ -1,10 +1,10 @@
 package co.skyclient.scc.gui.greeting
 
-import gg.essential.elementa.components.UIText
-import gg.essential.elementa.constraints.CenterConstraint
-import gg.essential.elementa.constraints.SiblingConstraint
-import gg.essential.elementa.dsl.*
-import gg.essential.universal.UGraphics
+import cc.polyfrost.oneconfig.libs.elementa.components.UIText
+import cc.polyfrost.oneconfig.libs.elementa.constraints.CenterConstraint
+import cc.polyfrost.oneconfig.libs.elementa.constraints.SiblingConstraint
+import cc.polyfrost.oneconfig.libs.elementa.dsl.*
+import cc.polyfrost.oneconfig.libs.universal.UGraphics
 import co.skyclient.scc.gui.greeting.components.GreetingSlide
 import java.awt.Color
 

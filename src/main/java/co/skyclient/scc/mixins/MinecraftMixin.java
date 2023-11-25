@@ -4,7 +4,7 @@ import co.skyclient.scc.SkyclientCosmetics;
 import co.skyclient.scc.config.Settings;
 import co.skyclient.scc.gui.SkyClientMainMenu;
 import co.skyclient.scc.utils.IconLoader;
-import gg.essential.api.EssentialAPI;
+import co.skyclient.scc.utils.MixinHook;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
@@ -27,7 +27,7 @@ public abstract class MinecraftMixin {
     @Inject(method = "displayGuiScreen", at = @At("HEAD"), cancellable = true)
     private void onDisplayScreen(GuiScreen i, CallbackInfo ci) {
         if (Settings.customMainMenu) {
-            if (i instanceof GuiMainMenu && !(i instanceof SkyClientMainMenu) && (EssentialAPI.getOnboardingData().hasAcceptedEssentialTOS() || EssentialAPI.getOnboardingData().hasDeniedEssentialTOS())) {
+            if (i instanceof GuiMainMenu && !(i instanceof SkyClientMainMenu) && MixinHook.hasEssentialAcceptedTOS()) {
                 ci.cancel();
                 displayGuiScreen(new SkyClientMainMenu());
             }
