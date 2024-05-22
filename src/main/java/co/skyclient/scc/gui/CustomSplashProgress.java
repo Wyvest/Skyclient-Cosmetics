@@ -186,7 +186,7 @@ public class CustomSplashProgress {
 
         Multithreading.runAsync(() -> {
             try {
-                String text = NetworkUtils.getString("https://cdn.jsdelivr.net/gh/KTibow/Skyclient@main/docs/assets/funfacts.txt");
+                String text = NetworkUtils.getString("https://cdn.jsdelivr.net/gh/SkyblockClient/Website@main/docs/assets/funfacts.txt");
                 if (text != null) {
                     String[] lines = text.split("\n");
                     int index = (int) (Math.random() * lines.length);
