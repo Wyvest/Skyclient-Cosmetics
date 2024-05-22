@@ -42,7 +42,7 @@ public class TagCosmetics {
         Multithreading.runAsync(() -> {
             try {
                 try {
-                    rawData = new JsonParser().parse(Objects.requireNonNull(NetworkUtils.getString("https://cdn.jsdelivr.net/gh/KTibow/Skyclient@main/docs/assets/tags.json")).replace('&', ChatColor.COLOR_CHAR)).getAsJsonObject();
+                    rawData = new JsonParser().parse(Objects.requireNonNull(NetworkUtils.getString("https://cdn.jsdelivr.net/gh/SkyblockClient/Website@main/docs/assets/tags.json")).replace('&', ChatColor.COLOR_CHAR)).getAsJsonObject();
                     Multithreading.runAsync(() -> {
                         try {
                             FileUtils.writeStringToFile(cacheFile, GSON.toJson(rawData), StandardCharsets.UTF_8);
