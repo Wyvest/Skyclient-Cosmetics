@@ -759,7 +759,7 @@ public class CustomSplashProgress {
 
         @Override
         protected void bindTexture(ResourceLocation location) {
-            if (location != locationFontTexture) throw new IllegalArgumentException();
+            //if (location != locationFontTexture) throw new IllegalArgumentException();
             fontTexture.bind();
         }
 

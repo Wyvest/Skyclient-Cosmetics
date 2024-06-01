@@ -46,7 +46,7 @@ public class TagCosmetics {
                     Multithreading.runAsync(() -> {
                         try {
                             FileUtils.writeStringToFile(cacheFile, GSON.toJson(rawData), StandardCharsets.UTF_8);
-                        } catch (IOException e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     });
