@@ -262,16 +262,6 @@ public class SkyClientMainMenu extends GuiMainMenu {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        if (!Files.greetingFile.exists()) {
-            new TickDelay(() -> {
-                try {
-                    Class<GreetingSlide<?>> clazz = GreetingSlide.Companion.getCurrentSlide();
-                    Minecraft.getMinecraft().displayGuiScreen(clazz != null ? clazz.newInstance() : new IntroductionGreetingSlide());
-                } catch (InstantiationException | IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-            }, 2);
-        }
         //background
         GlStateManager.disableAlpha();
         renderSkybox(partialTicks);

@@ -6,7 +6,6 @@
   "refmap": "mixins.scc.refmap.json",
   "mixins": [
     "SkytilsMixin",
-    "GuiMainMenuMixin",
     "GuiWinGameMixin",
     "MinecraftMixin",
     "ServerListAccessor",

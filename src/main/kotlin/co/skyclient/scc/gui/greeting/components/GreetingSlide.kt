@@ -17,7 +17,7 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiScreen
 import java.awt.Color
 
-open class GreetingSlide<T : GuiScreen>(private val nextGui: Class<T>, val onClick: () -> Unit = {}) : WindowScreen(version = ElementaVersion.V1, drawDefaultBackground = false, restoreCurrentGuiOnClose = false, newGuiScale = GuiScale.scaleForScreenSize().ordinal) {
+open class GreetingSlide<T : GuiScreen>(private val nextGui: Class<T>?, val onClick: () -> Unit = {}) : WindowScreen(version = ElementaVersion.V1, drawDefaultBackground = false, restoreCurrentGuiOnClose = false, newGuiScale = GuiScale.scaleForScreenSize().ordinal) {
     init {
         if (previousScale == Int.MIN_VALUE) {
             previousScale = Minecraft.getMinecraft().gameSettings.guiScale
@@ -86,7 +86,7 @@ open class GreetingSlide<T : GuiScreen>(private val nextGui: Class<T>, val onCli
             while (fade.getColor().alpha != 255) { ; }
             Minecraft.getMinecraft().addScheduledTask {
                 onClick()
-                displayScreen(nextGui.getConstructor().newInstance())
+                displayScreen(nextGui?.getConstructor()?.newInstance())
             }
         }
     }

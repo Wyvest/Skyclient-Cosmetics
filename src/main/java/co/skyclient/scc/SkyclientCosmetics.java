@@ -17,12 +17,15 @@
 
 package co.skyclient.scc;
 
+import cc.polyfrost.oneconfig.utils.TickDelay;
 import cc.polyfrost.oneconfig.utils.commands.CommandManager;
 import club.sk1er.patcher.config.PatcherConfig;
 import co.skyclient.scc.commands.SccComand;
 import co.skyclient.scc.config.Settings;
 import co.skyclient.scc.cosmetics.TagCosmetics;
+import co.skyclient.scc.gui.greeting.IntroductionGreetingSlide;
 import co.skyclient.scc.gui.greeting.OptimizationSlide;
+import co.skyclient.scc.gui.greeting.components.GreetingSlide;
 import co.skyclient.scc.listeners.ChatListeners;
 import co.skyclient.scc.listeners.GuiListeners;
 import co.skyclient.scc.listeners.PlayerListeners;
@@ -30,9 +33,12 @@ import co.skyclient.scc.mixins.ServerListAccessor;
 import co.skyclient.scc.rpc.RPC;
 import co.skyclient.scc.utils.Files;
 import de.jcm.discordgamesdk.Core;
+import me.partlysanestudios.partlysaneskies.config.OneConfigScreen;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.ServerList;
+import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
@@ -41,6 +47,8 @@ import net.minecraftforge.fml.common.ProgressManager;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.versioning.DefaultArtifactVersion;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -150,6 +158,17 @@ public class SkyclientCosmetics {
                 }
             } else if ("essential".equals(mod.getModId())) {
                 isEssential = true;
+            } else if ("partlysaneskies".equals(mod.getModId())) {
+                try {
+                    if (!Settings.hasWipedOutPSS) {
+                        OneConfigScreen.INSTANCE.setCustomMainMenu(false);
+                        OneConfigScreen.INSTANCE.save();
+                        Settings.hasWipedOutPSS = true;
+                        config.save();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
 
@@ -177,6 +196,20 @@ public class SkyclientCosmetics {
         }
 
         ProgressManager.pop(progress);
+    }
+
+    @SubscribeEvent
+    public void onGuiOpen(GuiOpenEvent event) {
+        if (event.gui instanceof GuiMainMenu && !Files.greetingFile.exists()) {
+            new TickDelay(() -> {
+                try {
+                    Class<GreetingSlide<?>> clazz = GreetingSlide.Companion.getCurrentSlide();
+                    Minecraft.getMinecraft().displayGuiScreen(clazz != null ? clazz.newInstance() : new IntroductionGreetingSlide());
+                } catch (InstantiationException | IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }, 3);
+        }
     }
 
 }

@@ -24,12 +24,29 @@ import cc.polyfrost.oneconfig.config.annotations.Text;
 import cc.polyfrost.oneconfig.config.data.Mod;
 import cc.polyfrost.oneconfig.config.data.ModType;
 import cc.polyfrost.oneconfig.config.migration.VigilanceMigrator;
+import cc.polyfrost.oneconfig.utils.TickDelay;
 import co.skyclient.scc.cosmetics.TagCosmetics;
+import co.skyclient.scc.gui.greeting.IntroductionGreetingSlide;
+import co.skyclient.scc.gui.greeting.components.GreetingSlide;
+import co.skyclient.scc.utils.Files;
+import net.minecraft.client.Minecraft;
 
 public class Settings extends Config {
 
     @Switch(name = "Custom Main Menu", description = "Enable the SkyClient Custom Main Menu.", category = "Main")
     public static boolean customMainMenu = true;
+
+    @Button(
+            name = "Setup SkyClient Again",
+            text = "Go",
+            category = "Main"
+    )
+    public static void r() {
+        Files.greetingFile.delete();
+        GreetingSlide.Companion.setCurrentSlide(null);
+        GreetingSlide.Companion.setPreviousScale(Integer.MIN_VALUE);
+        new TickDelay(() -> Minecraft.getMinecraft().displayGuiScreen(new IntroductionGreetingSlide()), 2);
+    }
 
     @Switch(name = "Show Custom Tags", description = "Show the custom tags, which are the main focus of this mod.", category = "Main", subcategory = "Tags")
     public static boolean showTags = true;
@@ -59,6 +76,8 @@ public class Settings extends Config {
 
     @Switch(name = "Tags in Display Names", description = "Shows tags above player names\n\u00A7c(May crash)", category = "Misc", subcategory = "Tags")
     public static boolean displayTags = false;
+
+    public static boolean hasWipedOutPSS = false;
 
     public Settings() {
         super(new Mod("SkyClientCosmetics", ModType.UTIL_QOL, "/assets/scc/SkyClient.png", new VigilanceMigrator("./SkyclientCosmetics/skyclientcosmetics.toml")), "skyclientcosmetics.json");

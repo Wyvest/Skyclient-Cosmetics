@@ -6,10 +6,10 @@ import cc.polyfrost.oneconfig.libs.elementa.constraints.SiblingConstraint
 import cc.polyfrost.oneconfig.libs.elementa.dsl.*
 import co.skyclient.scc.gui.greeting.components.GreetingSlide
 import co.skyclient.scc.utils.Files
-import net.minecraft.client.gui.GuiMainMenu
+import net.minecraft.client.gui.GuiScreen
 import java.awt.Color
 
-class EndSlide : GreetingSlide<GuiMainMenu>(GuiMainMenu::class.java, {
+class EndSlide : GreetingSlide<GuiScreen>(null, {
     Files.greetingFile.createNewFile()
     Files.greetingFile.writeText("DELETING OR EDITING THIS FILE WILL CAUSE WEIRD THINGS TO HAPPEN! DO NOT TOUCH THIS UNLESS A SKYCLIENT STAFF MEMBER HAS GIVEN YOU PERMISSION TO DO SO!\n2")
     Thread.sleep(1000)
