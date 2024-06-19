@@ -91,8 +91,18 @@ class ImportSlide : GreetingSlide<OptimizationSlide>(OptimizationSlide::class.ja
                     val file = File(parentConfig, location)
                     if (file.exists()) {
                         progressText.setText("Copying \"$location\"...")
-                        file.copyRecursively(File(Launch.minecraftHome, location), overwrite = true, onError = { _, _ -> OnErrorAction.SKIP })
-                        Thread.sleep(500)
+                        var errored = false
+                        File(Launch.minecraftHome, location).copyRecursively(File(Launch.minecraftHome, location + "-backup"), overwrite = true, onError = { _, _ ->
+                            errored = true
+                            return@copyRecursively OnErrorAction.SKIP
+                        })
+                        if (errored) {
+                            progressText.setText("${ChatColor.RED}\"$location\" failed to copy a backup, skipping...")
+                            Thread.sleep(1000)
+                        } else {
+                            file.copyRecursively(File(Launch.minecraftHome, location), overwrite = true, onError = { _, _ -> OnErrorAction.SKIP })
+                            Thread.sleep(500)
+                        }
                     } else {
                         progressText.setText("${ChatColor.RED}\"$location\" not found, skipping...")
                         Thread.sleep(1000)
