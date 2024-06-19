@@ -160,11 +160,16 @@ public class SkyclientCosmetics {
                 isEssential = true;
             } else if ("partlysaneskies".equals(mod.getModId())) {
                 try {
-                    if (!Settings.hasWipedOutPSS) {
-                        OneConfigScreen.INSTANCE.setCustomMainMenu(false);
-                        OneConfigScreen.INSTANCE.save();
-                        Settings.hasWipedOutPSS = true;
-                        config.save();
+                    try {
+                        if (!Settings.hasWipedOutPSS) {
+                            Class.forName("me.partlysanestudios.partlysaneskies.config.OneConfigScreen"); // check if the class exists
+                            OneConfigScreen.INSTANCE.setCustomMainMenu(false);
+                            OneConfigScreen.INSTANCE.save();
+                            Settings.hasWipedOutPSS = true;
+                            config.save();
+                        }
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
