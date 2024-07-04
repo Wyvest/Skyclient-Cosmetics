@@ -32,6 +32,7 @@ import co.skyclient.scc.listeners.PlayerListeners;
 import co.skyclient.scc.mixins.ServerListAccessor;
 import co.skyclient.scc.rpc.RPC;
 import co.skyclient.scc.utils.Files;
+import co.skyclient.scc.utils.ReplayModCompat;
 import com.replaymod.core.ReplayMod;
 import com.replaymod.recording.Setting;
 import de.jcm.discordgamesdk.Core;
@@ -79,7 +80,7 @@ public class SkyclientCosmetics {
 
     public static boolean isPatcher;
     public static boolean isEssential;
-    public static boolean isReplayMod;
+    public static boolean isReplayMod = false;
     public static Object scuConfig = null;
     //private static boolean hasFailed;
 
@@ -179,13 +180,15 @@ public class SkyclientCosmetics {
             } else if ("replaymod".equals(mod.getModId())) {
                 isReplayMod = true;
                 try {
-                    Class<?> replayMod = Class.forName("com.replaymod.core.ReplayMod");
+                    Class<?> replayMod = Class.forName("com.replaymod.core.ReplayMod", false, getClass().getClassLoader());
                     replayMod.getDeclaredField("instance");
                     replayMod.getDeclaredMethod("getSettingsRegistry");
-                    Class<?> settingsRegistry = Class.forName("com.replaymod.core.SettingsRegistry");
+                    Class<?> settingsRegistry = Class.forName("com.replaymod.core.SettingsRegistry", false, getClass().getClassLoader());
+                    Class<?> settingKey = Class.forName("com.replaymod.core.SettingsRegistry$SettingKey", false, getClass().getClassLoader());
+                    Class<?> settingKeys = Class.forName("com.replaymod.core.SettingsRegistry$SettingKeys", false, getClass().getClassLoader());
                     settingsRegistry.getDeclaredMethod("set", settingsRegistry.getDeclaredClasses()[0], Object.class);
                     settingsRegistry.getDeclaredMethod("save");
-                    Class<?> settings = Class.forName("com.replaymod.recording.Setting");
+                    Class<?> settings = Class.forName("com.replaymod.recording.Setting", false, getClass().getClassLoader());
                     settings.getDeclaredField("AUTO_START_RECORDING");
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -193,10 +196,7 @@ public class SkyclientCosmetics {
                 }
                 if (isReplayMod) {
                     if (!Settings.hasWipedOutReplayModAutoRecording) {
-                        ReplayMod.instance.getSettingsRegistry().set(Setting.AUTO_START_RECORDING, false);
-                        ReplayMod.instance.getSettingsRegistry().save();
-                        Settings.hasWipedOutReplayModAutoRecording = true;
-                        config.save();
+                        ReplayModCompat.doReplayModStuff();
                     }
                 }
             }
