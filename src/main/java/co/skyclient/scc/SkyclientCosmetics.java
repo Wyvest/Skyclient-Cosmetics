@@ -32,6 +32,8 @@ import co.skyclient.scc.listeners.PlayerListeners;
 import co.skyclient.scc.mixins.ServerListAccessor;
 import co.skyclient.scc.rpc.RPC;
 import co.skyclient.scc.utils.Files;
+import com.replaymod.core.ReplayMod;
+import com.replaymod.recording.Setting;
 import de.jcm.discordgamesdk.Core;
 import me.partlysanestudios.partlysaneskies.config.OneConfigScreen;
 import net.minecraft.client.Minecraft;
@@ -47,7 +49,6 @@ import net.minecraftforge.fml.common.ProgressManager;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.versioning.DefaultArtifactVersion;
 import org.apache.commons.io.FileUtils;
@@ -78,6 +79,7 @@ public class SkyclientCosmetics {
 
     public static boolean isPatcher;
     public static boolean isEssential;
+    public static boolean isReplayMod;
     public static Object scuConfig = null;
     //private static boolean hasFailed;
 
@@ -173,6 +175,30 @@ public class SkyclientCosmetics {
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
+                }
+            } else if ("replaymod".equals(mod.getModId())) {
+                isReplayMod = true;
+                try {
+                    Class<?> replayMod = Class.forName("com.replaymod.core.ReplayMod");
+                    replayMod.getDeclaredField("instance");
+                    replayMod.getDeclaredMethod("getSettingsRegistry");
+                    Class<?> settingsRegistry = Class.forName("com.replaymod.core.SettingsRegistry");
+                    settingsRegistry.getDeclaredMethod("set", settingsRegistry.getDeclaredClasses()[0], Object.class);
+                    settingsRegistry.getDeclaredMethod("save");
+                    Class<?> settings = Class.forName("com.replaymod.recording.Setting");
+                    settings.getDeclaredField("RECORD_SINGLEPLAYER");
+                    settings.getDeclaredField("RECORD_SERVER");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    isReplayMod = false;
+                }
+                if (isReplayMod) {
+                    if (!Settings.hasWipedOutReplayModAutoRecording) {
+                        ReplayMod.instance.getSettingsRegistry().set(Setting.AUTO_START_RECORDING, false);
+                        ReplayMod.instance.getSettingsRegistry().save();
+                        Settings.hasWipedOutReplayModAutoRecording = true;
+                        config.save();
+                    }
                 }
             }
         }

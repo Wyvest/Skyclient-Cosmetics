@@ -78,6 +78,7 @@ public class Settings extends Config {
     public static boolean displayTags = false;
 
     public static boolean hasWipedOutPSS = false;
+    public static boolean hasWipedOutReplayModAutoRecording = false;
 
     public Settings() {
         super(new Mod("SkyClientCosmetics", ModType.UTIL_QOL, "/assets/scc/SkyClient.png", new VigilanceMigrator("./SkyclientCosmetics/skyclientcosmetics.toml")), "skyclientcosmetics.json");
