@@ -186,8 +186,7 @@ public class SkyclientCosmetics {
                     settingsRegistry.getDeclaredMethod("set", settingsRegistry.getDeclaredClasses()[0], Object.class);
                     settingsRegistry.getDeclaredMethod("save");
                     Class<?> settings = Class.forName("com.replaymod.recording.Setting");
-                    settings.getDeclaredField("RECORD_SINGLEPLAYER");
-                    settings.getDeclaredField("RECORD_SERVER");
+                    settings.getDeclaredField("AUTO_START_RECORDING");
                 } catch (Exception e) {
                     e.printStackTrace();
                     isReplayMod = false;
