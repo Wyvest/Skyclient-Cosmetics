@@ -12,7 +12,7 @@ import cc.polyfrost.oneconfig.utils.NetworkUtils
 import co.skyclient.scc.gui.greeting.components.ButtonComponent
 import co.skyclient.scc.gui.greeting.components.CorrectOutsidePixelConstraint
 import co.skyclient.scc.gui.greeting.components.GreetingSlide
-import com.google.gson.JsonParser
+import co.skyclient.scc.utils.JsDelivrUtils
 import net.minecraft.client.Minecraft
 import net.minecraft.launchwrapper.Launch
 import java.awt.Color
@@ -70,7 +70,7 @@ class ImportSlide : GreetingSlide<OptimizationSlide>(OptimizationSlide::class.ja
             progressText.setText("Downloading config locations...")
             val configLocations = arrayListOf<String>()
             try {
-                NetworkUtils.getJsonElement("https://cdn.jsdelivr.net/gh/SkyblockClient/SkyblockClient-REPO@main/files/config_locations.json").asJsonArray.forEach {
+                NetworkUtils.getJsonElement(JsDelivrUtils.getDataUrl("/files/config_locations.json")).asJsonArray.forEach {
                     configLocations.add(it.asString)
                 }
             } catch (e: Exception) {

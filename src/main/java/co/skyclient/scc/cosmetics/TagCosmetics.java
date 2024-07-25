@@ -4,6 +4,7 @@ import cc.polyfrost.oneconfig.libs.universal.ChatColor;
 import cc.polyfrost.oneconfig.utils.Multithreading;
 import cc.polyfrost.oneconfig.utils.NetworkUtils;
 import co.skyclient.scc.utils.Files;
+import co.skyclient.scc.utils.JsDelivrUtils;
 import com.google.gson.*;
 import org.apache.commons.io.FileUtils;
 import org.jetbrains.annotations.NotNull;
@@ -42,7 +43,7 @@ public class TagCosmetics {
         Multithreading.runAsync(() -> {
             try {
                 try {
-                    rawData = new JsonParser().parse(Objects.requireNonNull(NetworkUtils.getString("https://cdn.jsdelivr.net/gh/SkyblockClient/Website@main/docs/assets/tags.json")).replace('&', ChatColor.COLOR_CHAR)).getAsJsonObject();
+                    rawData = new JsonParser().parse(Objects.requireNonNull(NetworkUtils.getString(JsDelivrUtils.getWebsiteUrl("/docs/assets/tags.json"))).replace('&', ChatColor.COLOR_CHAR)).getAsJsonObject();
                     Multithreading.runAsync(() -> {
                         try {
                             FileUtils.writeStringToFile(cacheFile, GSON.toJson(rawData), StandardCharsets.UTF_8);

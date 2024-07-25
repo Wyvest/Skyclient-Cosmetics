@@ -4,6 +4,7 @@ import co.skyclient.scc.SkyclientCosmetics;
 import co.skyclient.scc.config.Settings;
 import co.skyclient.scc.gui.SkyClientMainMenu;
 import co.skyclient.scc.utils.IconLoader;
+import co.skyclient.scc.utils.JsDelivrUtils;
 import co.skyclient.scc.utils.MixinHook;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiMainMenu;
@@ -23,6 +24,11 @@ import java.util.Objects;
 public abstract class MinecraftMixin {
     @Shadow
     public abstract void displayGuiScreen(GuiScreen guiScreenIn);
+
+    @Inject(method = "startGame", at = @At("HEAD"))
+    private void onStartGame(CallbackInfo ci) {
+        JsDelivrUtils.initialize();
+    }
 
     @Inject(method = "displayGuiScreen", at = @At("HEAD"), cancellable = true)
     private void onDisplayScreen(GuiScreen i, CallbackInfo ci) {
