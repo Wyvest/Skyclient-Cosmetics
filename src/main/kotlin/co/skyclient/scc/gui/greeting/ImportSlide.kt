@@ -70,7 +70,7 @@ class ImportSlide : GreetingSlide<OptimizationSlide>(OptimizationSlide::class.ja
             progressText.setText("Downloading config locations...")
             val configLocations = arrayListOf<String>()
             try {
-                NetworkUtils.getJsonElement("https://raw.githubusercontent.com/SkyblockClient/SkyblockClient-REPO/main/files/config_locations.json").asJsonArray.forEach {
+                NetworkUtils.getJsonElement("https://cdn.jsdelivr.net/gh/SkyblockClient/SkyblockClient-REPO@main/files/config_locations.json").asJsonArray.forEach {
                     configLocations.add(it.asString)
                 }
             } catch (e: Exception) {

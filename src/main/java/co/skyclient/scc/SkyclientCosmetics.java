@@ -26,15 +26,13 @@ import co.skyclient.scc.cosmetics.TagCosmetics;
 import co.skyclient.scc.gui.greeting.IntroductionGreetingSlide;
 import co.skyclient.scc.gui.greeting.OptimizationSlide;
 import co.skyclient.scc.gui.greeting.components.GreetingSlide;
-import co.skyclient.scc.listeners.ChatListeners;
+import co.skyclient.scc.listeners.TagListeners;
 import co.skyclient.scc.listeners.GuiListeners;
 import co.skyclient.scc.listeners.PlayerListeners;
 import co.skyclient.scc.mixins.ServerListAccessor;
 import co.skyclient.scc.rpc.RPC;
 import co.skyclient.scc.utils.Files;
 import co.skyclient.scc.utils.ReplayModCompat;
-import com.replaymod.core.ReplayMod;
-import com.replaymod.recording.Setting;
 import de.jcm.discordgamesdk.Core;
 import me.partlysanestudios.partlysaneskies.config.OneConfigScreen;
 import net.minecraft.client.Minecraft;
@@ -113,7 +111,7 @@ public class SkyclientCosmetics {
         progress.step("Registering Listeners");
 
         MinecraftForge.EVENT_BUS.register(this);
-        MinecraftForge.EVENT_BUS.register(new ChatListeners());
+        MinecraftForge.EVENT_BUS.register(new TagListeners());
         MinecraftForge.EVENT_BUS.register(new PlayerListeners());
         MinecraftForge.EVENT_BUS.register(new GuiListeners());
 

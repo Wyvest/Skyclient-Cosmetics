@@ -91,10 +91,10 @@ public class RPC extends Thread {
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                        if (!Settings.rpc && SkyclientCosmetics.rpcOn && SkyclientCosmetics.rpcRunning) {
+                        if (!(Settings.rpc && SkyclientCosmetics.config.enabled) && SkyclientCosmetics.rpcOn && SkyclientCosmetics.rpcRunning) {
                             core.activityManager().clearActivity();
                             SkyclientCosmetics.rpcOn = false;
-                        } else if (Settings.rpc && SkyclientCosmetics.rpcRunning) {
+                        } else if (Settings.rpc && SkyclientCosmetics.config.enabled && SkyclientCosmetics.rpcRunning) {
                             RPC.update(SkyclientCosmetics.rpcCore);
                             SkyclientCosmetics.rpcOn = true;
                         }

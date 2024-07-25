@@ -44,7 +44,7 @@ public class SkyClientMainMenu extends GuiMainMenu {
     private int panoramaTimer;
     private ResourceLocation backgroundTexture;
     private GuiButton selectedButton;
-    private static Class<?> cosmeticGui;
+    private static Class<?> cosmeticGui = null;
 
     static {
         try {
@@ -81,7 +81,9 @@ public class SkyClientMainMenu extends GuiMainMenu {
         } else {
             buttonList.add(new GuiButton(6, width / 20, (height / 2) + 100, 100, 20, "Quit Game"));
         }
-        buttonList.add(new ImageButton(new ResourceLocation("scc", "cosmetics.png"), 7, width - 22, height - 35, 20, 20));
+        if (cosmeticGui != null) {
+            buttonList.add(new ImageButton(new ResourceLocation("scc", "cosmetics.png"), 7, width - 22, height - 35, 20, 20));
+        }
         //buttonList.add(new ImageButton(new ResourceLocation("scc", "essential4.png"), 7, width - 22, height - 35, 20, 20));
     }
 

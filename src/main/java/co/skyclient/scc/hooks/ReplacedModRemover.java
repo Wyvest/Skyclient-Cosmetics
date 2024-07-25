@@ -102,7 +102,7 @@ public class ReplacedModRemover extends LaunchWrapperTweaker {
                                 MixinBootstrap.getPlatform().getClass().getDeclaredMethod("addContainer", containerClass).invoke(MixinBootstrap.getPlatform(), container);
                             } catch (Exception e) {
                                 e.printStackTrace();
-                                throw new RuntimeException("OneConfig's Mixin loading failed. Please contact https://polyfrost.cc/discord to resolve this issue!");
+                                throw new RuntimeException("OneConfig's Mixin loading failed. Please contact https://polyfrost.org/discord to resolve this issue!");
                             }
                         }
                     } catch (Exception ignored) {

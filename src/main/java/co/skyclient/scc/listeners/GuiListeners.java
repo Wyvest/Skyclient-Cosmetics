@@ -48,7 +48,7 @@ public class GuiListeners {
 
     @SubscribeEvent
     public void onTick(TickEvent.ClientTickEvent event) {
-        if (event.phase == TickEvent.Phase.END && Settings.customMainMenu) {
+        if (event.phase == TickEvent.Phase.END && SkyclientCosmetics.config.enabled && Settings.customMainMenu) {
             if (Minecraft.getMinecraft().currentScreen instanceof GuiMainMenu && !(Minecraft.getMinecraft().currentScreen instanceof SkyClientMainMenu)) {
                 Minecraft.getMinecraft().displayGuiScreen(new SkyClientMainMenu());
             }

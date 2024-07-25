@@ -78,7 +78,7 @@ public class TagCosmetics {
                     for (Tag tag : tagsToBeAdded) {
                         if (tag.getIdentifier().equals(perm.getIdentifier())) {
                             for (String user : perm.getUsers()) {
-                                tags.put(user.toLowerCase(Locale.ENGLISH), tag);
+                                tags.put(user, tag);
                             }
                             break;
                         }
@@ -98,7 +98,7 @@ public class TagCosmetics {
     @Nullable
     public Tag getTag(@NotNull String username) {
         if (!isInitialized()) return null;
-        return tags.getOrDefault(username.toLowerCase(Locale.ENGLISH), null);
+        return tags.getOrDefault(username, null);
     }
 
     public HashMap<String, Tag> getTags() {

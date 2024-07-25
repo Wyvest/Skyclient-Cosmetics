@@ -20,9 +20,6 @@ package co.skyclient.scc.listeners;
 import cc.polyfrost.oneconfig.utils.Notifications;
 import co.skyclient.scc.SkyclientCosmetics;
 import co.skyclient.scc.config.Settings;
-import co.skyclient.scc.cosmetics.Tag;
-import co.skyclient.scc.cosmetics.TagCosmetics;
-import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 
@@ -34,18 +31,6 @@ public class PlayerListeners {
             Notifications.INSTANCE.send(SkyclientCosmetics.MOD_NAME, "Welcome to SkyClient Cosmetics!\nType /scc in chat to get started!\nType /api new in chat to set your Hypixel API Key!");
             Settings.joinMessage = false;
             SkyclientCosmetics.config.save();
-        }
-    }
-
-    @SubscribeEvent
-    public void onNameFormat(PlayerEvent.NameFormat event) {
-        if (event.entity == null || event.entityPlayer == null || event.entityPlayer.isDead || event.displayname == null) return;
-
-        if (Settings.displayTags) {
-            Tag tag = TagCosmetics.getInstance().getTag(event.displayname);
-            if (tag != null) {
-                event.displayname = tag.getTag() + " " + event.displayname;
-            }
         }
     }
 }

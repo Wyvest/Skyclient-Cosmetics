@@ -1,5 +1,6 @@
 package co.skyclient.scc.mixins.replaymod;
 
+import co.skyclient.scc.SkyclientCosmetics;
 import co.skyclient.scc.config.Settings;
 import com.replaymod.lib.de.johni0702.minecraft.gui.utils.lwjgl.Point;
 import net.minecraft.client.gui.GuiButton;
@@ -22,7 +23,7 @@ public class GuiHandlerMixin {
     @Dynamic("From ReplayMod")
     @Inject(method = "determineButtonPos", at = @At("HEAD"), cancellable = true)
     private void redirectButtonPosition(@Coerce Object a, GuiScreen screen, @Coerce Object c, CallbackInfoReturnable<Point> cir) {
-        if (Settings.customMainMenu) {
+        if (Settings.customMainMenu && SkyclientCosmetics.config.enabled) {
             cir.setReturnValue(new Point(screen.width - 44, screen.height - 35));
         }
     }
@@ -30,7 +31,7 @@ public class GuiHandlerMixin {
     @Dynamic("From ReplayMod")
     @Inject(method = "moveAllButtonsInRect", at = @At("HEAD"), cancellable = true)
     private void redirectMoveButtons(Collection<GuiButton> buttons, int xStart, int xEnd, int yStart, int yEnd, int moveBy, CallbackInfo ci) {
-        if (Settings.customMainMenu) {
+        if (Settings.customMainMenu && SkyclientCosmetics.config.enabled) {
             ci.cancel();
         }
     }

@@ -74,9 +74,6 @@ public class Settings extends Config {
     @Switch(name = "First Time Message", description = "Get \"First time message\" when u join next time", category = "Misc", subcategory = "Chat")
     public static boolean joinMessage = true;
 
-    @Switch(name = "Tags in Display Names", description = "Shows tags above player names\n\u00A7c(May crash)", category = "Misc", subcategory = "Tags")
-    public static boolean displayTags = false;
-
     public static boolean hasWipedOutPSS = false;
     public static boolean hasWipedOutReplayModAutoRecording = false;
 
