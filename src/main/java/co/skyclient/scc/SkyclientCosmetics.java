@@ -79,7 +79,6 @@ public class SkyclientCosmetics {
     public static boolean isPatcher;
     public static boolean isEssential;
     public static boolean isReplayMod = false;
-    public static Object scuConfig = null;
     //private static boolean hasFailed;
 
     @Mod.EventHandler
@@ -149,12 +148,6 @@ public class SkyclientCosmetics {
                         OptimizationSlide.Companion.sendCTMFixNotification();
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            } else if ("skyblockclientupdater".equals(mod.getModId())) {
-                try {
-                    scuConfig = Class.forName("mynameisjeff.skyblockclientupdater.config.Config").getDeclaredField("INSTANCE").get(null);
-                } catch (ClassNotFoundException | NoSuchFieldException | IllegalAccessException e) {
                     e.printStackTrace();
                 }
             } else if ("essential".equals(mod.getModId())) {

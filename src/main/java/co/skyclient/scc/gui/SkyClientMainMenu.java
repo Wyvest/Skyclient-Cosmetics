@@ -1,17 +1,9 @@
 package co.skyclient.scc.gui;
 
-import cc.polyfrost.oneconfig.config.Config;
 import cc.polyfrost.oneconfig.libs.universal.ChatColor;
 import cc.polyfrost.oneconfig.libs.universal.USound;
-import cc.polyfrost.oneconfig.utils.NetworkUtils;
-import cc.polyfrost.oneconfig.utils.Notifications;
-import cc.polyfrost.oneconfig.utils.TickDelay;
 import cc.polyfrost.oneconfig.utils.gui.GuiUtils;
-import co.skyclient.scc.SkyclientCosmetics;
-import co.skyclient.scc.gui.greeting.IntroductionGreetingSlide;
-import co.skyclient.scc.gui.greeting.components.GreetingSlide;
 import co.skyclient.scc.hooks.GuiWinGameHook;
-import co.skyclient.scc.utils.Files;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.multiplayer.ServerData;
@@ -49,8 +41,7 @@ public class SkyClientMainMenu extends GuiMainMenu {
     static {
         try {
             cosmeticGui = Class.forName("gg.essential.gui.wardrobe.Wardrobe");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+        } catch (ClassNotFoundException ignored) {
         }
     }
 
@@ -75,14 +66,9 @@ public class SkyClientMainMenu extends GuiMainMenu {
         buttonList.add(new GuiButton(2, width / 20, (height / 2) + 10, 100, 20, "§6Play Hypixel§r"));
         buttonList.add(new GuiButton(3, width / 20, (height / 2) + 40, 100, 20, "Servers"));
         buttonList.add(new GuiButton(4, width / 20, (height / 2) + 70, 100, 20, "Settings"));
-        if (SkyclientCosmetics.scuConfig != null) {
-            buttonList.add(new GuiButton(5, width / 20, (height / 2) + 100, 100, 20, "§6Updater§r"));
-            buttonList.add(new GuiButton(6, width / 20, (height / 2) + 130, 100, 20, "Quit Game"));
-        } else {
-            buttonList.add(new GuiButton(6, width / 20, (height / 2) + 100, 100, 20, "Quit Game"));
-        }
+        buttonList.add(new GuiButton(5, width / 20, (height / 2) + 100, 100, 20, "Quit Game"));
         if (cosmeticGui != null) {
-            buttonList.add(new ImageButton(new ResourceLocation("scc", "cosmetics.png"), 7, width - 22, height - 35, 20, 20));
+            buttonList.add(new ImageButton(new ResourceLocation("scc", "cosmetics.png"), 6, width - 22, height - 35, 20, 20));
         }
         //buttonList.add(new ImageButton(new ResourceLocation("scc", "essential4.png"), 7, width - 22, height - 35, 20, 20));
     }
@@ -103,30 +89,9 @@ public class SkyClientMainMenu extends GuiMainMenu {
                 this.mc.displayGuiScreen(new GuiOptions(this, this.mc.gameSettings));
                 break;
             case 5:
-                if (SkyclientCosmetics.scuConfig != null) {
-                    if (SkyclientCosmetics.scuConfig instanceof Config) {
-                        try {
-                            ((Config) SkyclientCosmetics.scuConfig).openGui();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    } else {
-                        try {
-                            GuiUtils.displayScreen((GuiScreen) Class.forName("gg.essential.vigilance.Vigilant").getDeclaredMethod("gui").invoke(SkyclientCosmetics.scuConfig));
-                        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException |
-                                 ClassNotFoundException e) {
-                            e.printStackTrace();
-                            Notifications.INSTANCE.send("SkyClient", "§cFailed to open SkyClient Updater GUI. Please go to inv.wtf/skyclient to fix this issue.", () -> {
-                                NetworkUtils.browseLink("https://inv.wtf/skyclient");
-                            });
-                        }
-                    }
-                }
-                break;
-            case 6:
                 this.mc.shutdown();
                 break;
-            case 7:
+            case 6:
                 try {
                     this.mc.displayGuiScreen((GuiScreen) cosmeticGui.getDeclaredConstructor().newInstance());
                 } catch (InstantiationException | IllegalAccessException | NoSuchMethodException |
