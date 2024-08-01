@@ -16,7 +16,7 @@ classes
 .idea
 
 # gradle
-build
+build/*
 .gradle
 
 #Netbeans
