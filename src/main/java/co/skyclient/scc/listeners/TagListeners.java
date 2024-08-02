@@ -48,7 +48,7 @@ public class TagListeners {
     private static final HashMap<String, String> filteredPotentialRanks = new HashMap<>(50);
     public static Map<String, String> nametags = new HashMap<>(400);
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onChatMsgTags(ClientChatReceivedEvent event) {
         if (SkyclientCosmetics.config.enabled && Settings.showTags && HypixelUtils.INSTANCE.isHypixel()) {
             try {
@@ -72,7 +72,7 @@ public class TagListeners {
         }
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onTooltip(ItemTooltipEvent event) {
         if (SkyclientCosmetics.config.enabled && Settings.showTags && HypixelUtils.INSTANCE.isHypixel()) {
             for (int i = 0; i < event.toolTip.size(); i++) {
@@ -87,7 +87,7 @@ public class TagListeners {
         }
     }
 
-    @SubscribeEvent(priority = EventPriority.LOW)
+    @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onRenderLiving(RenderLivingEvent.Specials.Pre<EntityLivingBase> event) {
         if (SkyclientCosmetics.config.enabled && Settings.showTags && HypixelUtils.INSTANCE.isHypixel()) {
             Entity entity = event.entity;
@@ -115,7 +115,7 @@ public class TagListeners {
         }
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.LOWEST)
     public void onWorldChange(WorldEvent.Load event) {
         nametags.clear();
     }

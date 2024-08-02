@@ -90,7 +90,7 @@ public class SkyclientCosmetics {
 
         Files.setup();
 
-        progress.step("Loading Vigilance");
+        progress.step("Loading config");
 
         config = new Settings();
         config.preload();
