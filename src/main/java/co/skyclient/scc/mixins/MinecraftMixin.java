@@ -32,7 +32,7 @@ public abstract class MinecraftMixin {
 
     @Inject(method = "displayGuiScreen", at = @At("HEAD"), cancellable = true)
     private void onDisplayScreen(GuiScreen i, CallbackInfo ci) {
-        if (Settings.customMainMenu && SkyclientCosmetics.config.enabled) {
+        if (Settings.customMainMenu && SkyclientCosmetics.config != null && SkyclientCosmetics.config.enabled) {
             if (i instanceof GuiMainMenu && !(i instanceof SkyClientMainMenu) && MixinHook.hasEssentialAcceptedTOS()) {
                 ci.cancel();
                 displayGuiScreen(new SkyClientMainMenu());
